@@ -1,0 +1,94 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+
+    <!--  ANGULAR + MATERIAL: directly from google --------------------- -->
+    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/angular_material/1.1.12/angular-material.min.css"></link>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.6/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.6/angular-animate.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.6/angular-aria.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.6/angular-messages.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angular_material/1.1.12/angular-material.min.js"></script>
+
+    <!--  OUR SCRIPTS ----------------------------------------- -->
+    <script src="loginRegister.js"> </script>
+</head>
+
+<body ng-app="myApp" ng-controller="myController" ng-cloak>
+
+    <md-toolbar class="md-primary">
+        <p style="padding:10px">Jobs at Public Outdoor Ice Rinks</p>
+    </md-toolbar>
+
+    <!--One row of two columns-->
+    <section layout="row">
+        <!-- left column --------------------------------->
+        <section layout="column" style="width:50%; padding:10px;">
+            <p>If you are registered, log in to apply or to view the status of your application.</p>
+            <div>
+                <md-input-container flex="50">
+                    <label>Login</label>
+                    <input ng-model="user.login" required>
+                </md-input-container>
+            </div>
+
+            <div>
+                <md-input-container flex="50">
+                    <label>Password</label>
+                    <input ng-model="user.password" required>
+                </md-input-container>
+            </div>
+
+            <div>
+                <md-button class="md-raised md-primary" ng-click="login();">
+                    Login
+                </md-button>
+            </div>
+
+            <md-content style="color:red">
+                {{loginErrorMessage}}
+            </md-content>
+        </section>
+
+        <!-- right column ------------------------------------------------------------>
+        <section layout="column" style="width:50%;padding:10px; border-left: 1px solid lightgrey;">
+            <p>If you are not registered, provide the following information.</p>
+            <div>
+                <md-input-container flex="50">
+                    <label>Choose a login</label>
+                    <input ng-model="user.chooseLogin" required>
+                </md-input-container>
+            </div>
+
+            <div>
+                <md-input-container flex="50">
+                    <label>Choose a password</label>
+                    <input ng-model="user.choosePassword" required>
+                </md-input-container>
+            </div>
+
+            <div>
+                <md-input-container flex="50">
+                    <label>Confirm the password</label>
+                    <input ng-model="user.confirmPassword" required>
+                </md-input-container>
+            </div>
+
+            <div>
+                <md-button class="md-raised md-primary" ng-click="register();">
+                    Register
+                </md-button>
+            </div>
+
+            <md-content style="color:red">
+                {{registerErrorMessage}}
+            </md-content>
+        </section>
+    </section>
+
+    <br>
+    <md-divider ng-if="!$last"></md-divider>
+    <p>If you are a manager, click here to navigate to the Manager Login page.</p>
+
+</body>
+</html>
