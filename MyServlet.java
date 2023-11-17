@@ -4,18 +4,17 @@ import javax.servlet.annotation.*;
 import javax.servlet.http.*;
 import com.google.gson.*;
 
-class VacationInfo {
-    String message;
-    String name;
-    String email;
-    String departureDate;
-    String returnDate;
-    boolean pickup;
-    boolean dropoff;
-    String vacationTypeStr;
-    String[] addons;
-    String partOfWorld;
-    int scoreLastVac;
+// The generic fields will be populated depending on
+// which js file the data comes from.
+class Data {
+    String login;
+    String password;
+    String registerLogin;
+    String registerPassword;
+
+
+    String servletAction;
+
 }
 
 public class MyServlet extends HttpServlet {

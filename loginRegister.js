@@ -2,16 +2,18 @@
 // Servlet's URL
 const url = "http://localhost:40104/rinkjobs";
 
-const loginDataToServer = {
+// Object includes data from all forms of the website.
+// This object is the same (update by copying/pasting) in all js files.
+// Its content and strucure is replicated in Servlet.
+// Update class in serlvet after every update in the js objects.
+//
+//
+const dataToServer = {
     login: null,
     password: null,
-    servletAction: "login"
-};
-
-const registerDataToServer = {
-    chosenLogin: null,
-    chosenPassword: null,
-    servletAction: "register"
+    registerLogin: null,
+    registerPassword: null,
+    servletAction: null
 };
 
 let jsonDataFromServer = {
@@ -36,9 +38,9 @@ app.controller("myController", function($scope) {
     $scope.user = {
 	    login: "",
 	    password: "",
-	    chosenLogin: "",
-	    chosenPassword: "",
-	    confirmedPassword: ""
+	    registerLogin: "",
+	    registerPassword: "",
+	    confirmPassword: ""
     };
     $scope.loginErrorMessage = "";
     $scope.registerErrorMessage = "";
@@ -47,9 +49,10 @@ app.controller("myController", function($scope) {
 	    if (checkLoginInput($scope)) {
 	        console.log ("Login Input Is Valid")
 	        extractLoginData ($scope);
-	        console.log ("login: " + loginDataToServer.login);
-	        console.log ("pwd: " + loginDataToServer.password);
-	        sendLoginDataToServer();
+	        console.log ("login: " + dataToServer.login);
+	        console.log ("pwd: " + dataToServer.password);
+	        dataToServer.servletAction = "login";
+	        sendDataToServer($scope);
 
 	    }
     };
@@ -91,17 +94,38 @@ function checkLoginInput($scope) {
 }
 
 function extractLoginData ($scope) {
-    loginDataToServer.login = $scope.user.login;
-    loginDataToServer.password = $scope.user.password;
+    dataToServer.login = $scope.user.login;
+    dataToServer.password = $scope.user.password;
 }
 
-function sendLoginDataToServer(){
+//-----------------------------
+// Send and receive from Servlet
+//-----------------------------
+function sendDataToServer($scope){
+        console.log ("Entered sendDataToServer");
         let req = new XMLHttpRequest();
-        req.addEventListener("load", requestListener);
+        req.addEventListener("load", requestLoginListener);
         req.open("POST", url);
         req.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-        req.send(JSON.stringify(loginDataToServer));
-        console.log ("Sent to server: json=" + JSON.stringify(loginDataToServer));
+        req.send(JSON.stringify(dataToServer));
+        console.log ("Sent to server: json=" + JSON.stringify(dataToServer));
+}
+
+function requestLoginListener ($scope) {
+    console.log ("this.responseText: " + this.responseText);
+    const jsonObject = JSON.parse (this.responseText); // What I get from servlet
+    jsonDataFromServer.uid = jsonObject.uid;
+    if (jsonDataFromServer.uid == null) {
+        $scope.loginErrorMessage = "Login and Password do not match. Try again or register.";
+    }
+    else {
+        const userID = jsonDataFromServer.uid.toString();
+        // Saves uid in browser memory so it is available on next page
+        sessionStorage.setItem("UID", userID);
+
+        console.log ("jsonDataFromServer.uid.toString(): " + jsonDataFromServer.uid.toString());
+        console.log ("Ready to move to Application page");
+    }
 }
 
 //-----------------------------
@@ -119,26 +143,26 @@ function checkRegisterInput($scope) {
         return false;
     }
 
-    if ($scope.user.chosenPassword === $scope.user.confirmedPassword) {
+    if ($scope.user.registerPassword === $scope.user.confirmPassword) {
         $scope.registerErrorMessage = "";
-        console.log ("password " + $scope.user.chosenPassword + " is the same as the confirmed " + $scope.user.confirmedPassword);
+        console.log ("password " + $scope.user.registerPassword + " is the same as the confirmed " + $scope.user.confirmPassword);
     }
     else {
         $scope.registerErrorMessage = "Ensure you enter the same password twice.";
-        $scope.user.chosenPassword = "";
-        $scope.user.confirmedPassword = "";
+        $scope.user.registerPassword = "";
+        $scope.user.confirmPassword = "";
         console.log ("password is NOT confirmed");
         return false;
     }
 
-    if ($scope.user.chosenPassword.length > 2 && $scope.user.chosenPassword.length < 13) {
+    if ($scope.user.registerPassword.length > 2 && $scope.user.registerPassword.length < 13) {
         $scope.registerErrorMessage = "";
-        console.log ("password is the right length: " + $scope.user.chosenPassword.length);
+        console.log ("password is the right length: " + $scope.user.registerPassword.length);
     }
     else {
         $scope.registerErrorMessage = "Ensure your password is between 3 and 12 characters and/or numbers.";
-        $scope.user.chosenPassword = "";
-        $scope.user.confirmedPassword = "";
+        $scope.user.registerPassword = "";
+        $scope.user.confirmPassword = "";
         console.log ("password is too short or too long");
         return false;
     }
@@ -146,24 +170,15 @@ function checkRegisterInput($scope) {
     return true;
 }
 
-function sendDataToServer($scope) {
-    // Put everything into a JSON string and send to the server.
-    // test
-   /* loginDataToServer.login = $scope.user.login;
-    loginDataToServer.password = $scope.user.password;
 
-    console.log (loginDataToServer.login);
-    console.log (loginDataToServer.password);*/
-
-}
 
 function register ($scope) {
-    registerDataToServer.chosenLogin = $scope.user.chosenLogin;
-    registerDataToServer.chosenPassword = $scope.user.chosenPassword;
-    registerDataToServer.confirmedPassword = $scope.user.confirmedPassword;
+    registerDataToServer.registerLogin = $scope.user.registerLogin;
+    registerDataToServer.registerPassword = $scope.user.registerPassword;
+    registerDataToServer.confirmPassword = $scope.user.confirmPassword;
 
-    console.log (registerDataToServer.chosenLogin);
-    console.log (registerDataToServer.chosenPassword);
-    console.log (registerDataToServer.confirmedPassword);
+    console.log (registerDataToServer.registerLogin);
+    console.log (registerDataToServer.registerPassword);
+    console.log (registerDataToServer.confirmPassword);
 }
 
