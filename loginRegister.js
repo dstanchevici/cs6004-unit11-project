@@ -61,13 +61,18 @@ app.controller("myController", function($scope) {
 
     $scope.register = function() {
         if (checkRegisterInput($scope)) {
-            console.log ("Register Input Is Valid")
+            console.log ("Register Input Is Valid");
+            extractRegisterData ($scope);
+            //console.log ("dataToServer.registerLogin: " + dataToServer.registerLogin);
+            //console.log ("dataToServer.registerPassword: " + dataToServer.registerPassword);
+            dataToServer.servletAction = "register";
+            sendDataToServer($scope);
         }
     };
 }); // End controller
 
 //-----------------------------
-// Handle Login
+// Check and Extract Login
 //-----------------------------
 function checkLoginInput($scope) {
     if ($scope.loginform.$valid) {
@@ -101,52 +106,7 @@ function extractLoginData ($scope) {
 }
 
 //-----------------------------
-// Send and receive from Servlet
-//-----------------------------
-function sendDataToServer($scope){
-        console.log ("Entered sendDataToServer");
-        let req = new XMLHttpRequest();
-        req.addEventListener("load", requestListener);
-        req.open("POST", url);
-        req.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-        req.send(JSON.stringify(dataToServer));
-        console.log ("Sent to server: json=" + JSON.stringify(dataToServer));
-}
-
-function requestListener ($scope) {
-    console.log ("this.responseText: " + this.responseText);
-
-    const jsonObject = JSON.parse (this.responseText); // What I get from servlet
-    jsonDataFromServer.uid = jsonObject.uid;
-    jsonDataFromServer.role = jsonObject.role;
-
-    if (jsonDataFromServer.uid == null) {
-        //$scope.loginErrorMessage = "The login and password do not match. Try again or register.";
-        //console.log("$scope.loginErrorMessage: " + $scope.loginErrorMessage);
-        document.getElementById("nomatch").innerHTML = "The login and password do not match. Try again or register.";
-    }
-    else {
-        const userID = jsonDataFromServer.uid.toString();
-        const role = jsonDataFromServer.role.toString();
-        // Saves uid in browser memory so it is available on next page
-        sessionStorage.setItem("UID", userID);
-
-        document.getElementById("nomatch").innerHTML = "";
-
-        if (role === "manager") {
-            // Go to manager page
-            console.log ("Role = " + jsonDataFromServer.role + ". Moving to Manager page");
-        }
-        else {
-            // Go to Applicant page
-            console.log ("Role = " + jsonDataFromServer.role + ". Moving to Applicant page");
-
-        }
-    }
-}
-
-//-----------------------------
-// Handle Register
+// Check and Extract Register
 //-----------------------------
 function checkRegisterInput($scope) {
     if ($scope.registerform.$valid) {
@@ -187,15 +147,86 @@ function checkRegisterInput($scope) {
     return true;
 }
 
-
-
-function register ($scope) {
-    registerDataToServer.registerLogin = $scope.user.registerLogin;
-    registerDataToServer.registerPassword = $scope.user.registerPassword;
-    registerDataToServer.confirmPassword = $scope.user.confirmPassword;
-
-    console.log (registerDataToServer.registerLogin);
-    console.log (registerDataToServer.registerPassword);
-    console.log (registerDataToServer.confirmPassword);
+function extractRegisterData ($scope) {
+    dataToServer.registerLogin = $scope.user.registerLogin;
+    dataToServer.registerPassword = $scope.user.registerPassword;
 }
+
+//-----------------------------
+// Send and receive from Servlet
+//-----------------------------
+function sendDataToServer($scope){
+        console.log ("Entered sendDataToServer");
+        console.log ("dataToServer.servletAction: " + dataToServer.servletAction);
+        console.log ("To be sent to server: json=" + JSON.stringify(dataToServer));
+        let req = new XMLHttpRequest();
+
+        if (dataToServer.servletAction === "login") {
+            req.addEventListener("load", requestLoginListener);
+        }
+        else if (dataToServer.servletAction === "register") {
+            req.addEventListener("load", requestRegisterListener);
+        }
+
+        req.open("POST", url);
+        req.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+        req.send(JSON.stringify(dataToServer));
+        console.log ("Sent to server: json=" + JSON.stringify(dataToServer));
+}
+
+function requestLoginListener () {
+    console.log ("this.responseText: " + this.responseText);
+
+    const jsonObject = JSON.parse (this.responseText); // What I get from servlet
+    jsonDataFromServer.uid = jsonObject.uid;
+    jsonDataFromServer.role = jsonObject.role;
+
+    if (jsonDataFromServer.uid == null) {
+        document.getElementById("nomatch").innerHTML = "The login and password do not match. Try again or register.";
+    }
+    else {
+        const userID = jsonDataFromServer.uid.toString();
+        const role = jsonDataFromServer.role.toString();
+        // Saves uid in browser memory so it is available on next page
+        sessionStorage.setItem("UID", userID);
+
+        document.getElementById("nomatch").innerHTML = "";
+
+        if (role === "manager") {
+            // Go to manager page
+            console.log ("Role = " + jsonDataFromServer.role + ". Moving to Manager page");
+        }
+        else {
+            // Go to Applicant page
+            console.log ("Role = " + jsonDataFromServer.role + ". Moving to Applicant page");
+
+        }
+    }
+}
+
+function requestRegisterListener() {
+    const jsonObject = JSON.parse (this.responseText); // What I get from servlet
+    jsonDataFromServer.uid = jsonObject.uid;
+    jsonDataFromServer.role = jsonObject.role;
+
+    if (jsonDataFromServer.uid == null) {
+            $scope.registerErrorMessage = "The login and password do not match. Try again or register.";
+            //console.log("$scope.loginErrorMessage: " + $scope.loginErrorMessage);
+            document.getElementById("nomatch").innerHTML = "The login and password do not match. Try again or register.";
+        }
+    else {
+        const userID = jsonDataFromServer.uid.toString();
+        const role = jsonDataFromServer.role.toString();
+        // Saves uid in browser memory so it is available on next page
+        sessionStorage.setItem("UID", userID);
+
+        //document.getElementById("nomatch").innerHTML = "";
+    }
+}
+
+
+
+
+
+
 
