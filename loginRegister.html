@@ -58,6 +58,11 @@
                 <md-content class="errorMessage">
                     {{loginErrorMessage}}
                 </md-content>
+                <!--The above binding doesn't work after data is returned from servlet
+                    so I'm also including a non-angular tag for error message.
+                -->
+                <p class="errorMessage" id="nomatch">
+                </p>
             </section>
         </form>
 
@@ -96,6 +101,7 @@
                 <md-content class="errorMessage">
                     {{registerErrorMessage}}
                 </md-content>
+
             </section>
         </form>
     </section>

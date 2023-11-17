@@ -23,6 +23,8 @@ class DataFromJS {
 
 public class MyServlet extends HttpServlet {
 
+    // WRITE THE ONE LINE OF CODE TO build the output json
+    static String outputJson = "";
     static Connection conn;
     static Statement statement;
     // Use constructor to connect to the database.
@@ -93,16 +95,10 @@ public class MyServlet extends HttpServlet {
             resp.setCharacterEncoding("UTF-8");
             Writer writer = resp.getWriter ();
 
-
-            // WRITE THE ONE LINE OF CODE TO build the output json
-            String outputJson = "";
-
             // Assign a value to outputJson depending on servletAction
             String action = data.servletAction;
             if (action.equals("login")){
-                String uid = confirmUser(data.login, data.password);
-                System.out.println("uid: " + uid);
-                outputJson = "{\"uid\":" + uid + "}";
+                confirmUser(data.login, data.password);
             }
 
             // Write it out and, most importantly, flush():
@@ -117,25 +113,40 @@ public class MyServlet extends HttpServlet {
         }
     } // End handleRequest()
 
-    String confirmUser (String login, String password)
+    // This method retrieves uid and role, if available,
+    // and puts them in outputJason
+    void confirmUser (String login, String password)
     {
         try {
             String uid = null;
+            String role = null;
             String sql = "" +
-                    "SELECT UID FROM USER " +
+                    "SELECT UID, ROLE " +
+                    "FROM USER " +
                     "WHERE LOGIN = '" + login + "' " +
                     "AND PASSWORD = '" + password + "' ";
             ResultSet rs = statement.executeQuery(sql);
 
-            while (rs.next()) {
-                uid= rs.getString(1);
+            if (rs.next()) {
+                uid = rs.getString(1);
+                role = rs.getString(2);
                 System.out.println ("uid: " + uid);
+                System.out.println ("role: " + role);
             }
-            return uid;
+
+            if (uid == null) {
+                outputJson = "{\"uid\":" + uid + ", \"role\":" + role + "}";
+                System.out.println("outputJson: "+ outputJson);
+            }
+            else {
+                outputJson = "{\"uid\":\"" + uid + "\", \"role\":\"" + role + "\"}";
+                System.out.println("outputJson: "+ outputJson);
+            }
+
         }
         catch (Exception e) {
             e.printStackTrace();
-            return null;
+            outputJson = "{\"uid\":" + null + ", \"role\":" + null + "}";
         }
     }
 

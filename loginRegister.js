@@ -18,7 +18,8 @@ const dataToServer = {
 };
 
 let jsonDataFromServer = {
-    uid: null
+    uid: null,
+    role: null
 }
 
 const app = angular.module("myApp", ['ngMaterial', 'ngMessages']);
@@ -105,27 +106,42 @@ function extractLoginData ($scope) {
 function sendDataToServer($scope){
         console.log ("Entered sendDataToServer");
         let req = new XMLHttpRequest();
-        req.addEventListener("load", requestLoginListener);
+        req.addEventListener("load", requestListener);
         req.open("POST", url);
         req.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
         req.send(JSON.stringify(dataToServer));
         console.log ("Sent to server: json=" + JSON.stringify(dataToServer));
 }
 
-function requestLoginListener ($scope) {
+function requestListener ($scope) {
     console.log ("this.responseText: " + this.responseText);
+
     const jsonObject = JSON.parse (this.responseText); // What I get from servlet
     jsonDataFromServer.uid = jsonObject.uid;
+    jsonDataFromServer.role = jsonObject.role;
+
     if (jsonDataFromServer.uid == null) {
-        $scope.loginErrorMessage = "The login and password do not match. Try again or register.";
+        //$scope.loginErrorMessage = "The login and password do not match. Try again or register.";
+        //console.log("$scope.loginErrorMessage: " + $scope.loginErrorMessage);
+        document.getElementById("nomatch").innerHTML = "The login and password do not match. Try again or register.";
     }
     else {
         const userID = jsonDataFromServer.uid.toString();
+        const role = jsonDataFromServer.role.toString();
         // Saves uid in browser memory so it is available on next page
         sessionStorage.setItem("UID", userID);
 
-        console.log ("jsonDataFromServer.uid.toString(): " + jsonDataFromServer.uid.toString());
-        console.log ("Ready to move to Application page");
+        document.getElementById("nomatch").innerHTML = "";
+
+        if (role === "manager") {
+            // Go to manager page
+            console.log ("Role = " + jsonDataFromServer.role + ". Moving to Manager page");
+        }
+        else {
+            // Go to Applicant page
+            console.log ("Role = " + jsonDataFromServer.role + ". Moving to Applicant page");
+
+        }
     }
 }
 
