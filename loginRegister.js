@@ -1,15 +1,24 @@
 
+// Servlet's URL
+const url = "http://localhost:40104/rinkjobs";
+
 const loginDataToServer = {
     login: null,
-    password: null
+    password: null,
+    servletAction: "login"
 };
 
 const registerDataToServer = {
     chosenLogin: null,
-    chosenPassword: null
+    chosenPassword: null,
+    servletAction: "register"
 };
 
-let app = angular.module("myApp", ['ngMaterial', 'ngMessages']);
+let jsonDataFromServer = {
+    uid: null
+}
+
+const app = angular.module("myApp", ['ngMaterial', 'ngMessages']);
 
 app.config(function($mdThemingProvider) {
     $mdThemingProvider.theme('default')
@@ -37,6 +46,11 @@ app.controller("myController", function($scope) {
     $scope.login = function() {
 	    if (checkLoginInput($scope)) {
 	        console.log ("Login Input Is Valid")
+	        extractLoginData ($scope);
+	        console.log ("login: " + loginDataToServer.login);
+	        console.log ("pwd: " + loginDataToServer.password);
+	        sendLoginDataToServer();
+
 	    }
     };
 
@@ -47,6 +61,9 @@ app.controller("myController", function($scope) {
     };
 }); // End controller
 
+//-----------------------------
+// Handle Login
+//-----------------------------
 function checkLoginInput($scope) {
     if ($scope.loginform.$valid) {
         $scope.loginErrorMessage = "";
@@ -60,7 +77,7 @@ function checkLoginInput($scope) {
 
     if ($scope.user.password.length > 2 && $scope.user.password.length < 13) {
         $scope.loginErrorMessage = "";
-        console.log ("password is the right length: " + $scope.user.chosenPassword.length);
+        console.log ("password is the right length: " + $scope.user.password.length);
     }
     else {
         $scope.loginErrorMessage = "Ensure your password is between 3 and 12 characters and/or numbers.";
@@ -73,6 +90,23 @@ function checkLoginInput($scope) {
     return true;
 }
 
+function extractLoginData ($scope) {
+    loginDataToServer.login = $scope.user.login;
+    loginDataToServer.password = $scope.user.password;
+}
+
+function sendLoginDataToServer(){
+        let req = new XMLHttpRequest();
+        req.addEventListener("load", requestListener);
+        req.open("POST", url);
+        req.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+        req.send(JSON.stringify(loginDataToServer));
+        console.log ("Sent to server: json=" + JSON.stringify(loginDataToServer));
+}
+
+//-----------------------------
+// Handle Register
+//-----------------------------
 function checkRegisterInput($scope) {
     if ($scope.registerform.$valid) {
         $scope.registerErrorMessage = "";

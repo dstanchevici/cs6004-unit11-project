@@ -1,0 +1,18 @@
+
+.body {
+    padding: 15px;
+}
+
+.column {
+    border-left: 1px solid lightgrey;
+    padding:15px;
+    width:500px;
+}
+
+.errorMessage {
+    color: red;
+}
+
+.toolBarText {
+    padding: 15px;
+}
