@@ -6,7 +6,8 @@ const url = "http://localhost:40104/rinkjobs";
 // This object is the same (update by copying/pasting) in all js files.
 // Its content and strucure is replicated in Servlet.
 // Update class in serlvet after every update in the js objects.
-//
+// Question: To avoid passing a large object every time,
+// should there be a servlet for every form?
 //
 const dataToServer = {
     login: null,
@@ -116,7 +117,7 @@ function requestLoginListener ($scope) {
     const jsonObject = JSON.parse (this.responseText); // What I get from servlet
     jsonDataFromServer.uid = jsonObject.uid;
     if (jsonDataFromServer.uid == null) {
-        $scope.loginErrorMessage = "Login and Password do not match. Try again or register.";
+        $scope.loginErrorMessage = "The login and password do not match. Try again or register.";
     }
     else {
         const userID = jsonDataFromServer.uid.toString();

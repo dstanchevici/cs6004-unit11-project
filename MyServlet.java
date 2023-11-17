@@ -1,12 +1,16 @@
 import java.io.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.Statement;
 import javax.servlet.*;
 import javax.servlet.annotation.*;
 import javax.servlet.http.*;
 import com.google.gson.*;
 
-// The generic fields will be populated depending on
-// which js file the data comes from.
-class Data {
+// This class serves the dataToServer object in js files.
+// Update this clas as you update the js object.
+class DataFromJS {
     String login;
     String password;
     String registerLogin;
@@ -19,19 +23,40 @@ class Data {
 
 public class MyServlet extends HttpServlet {
 
-    VacationInfo vInfo;
+    static Connection conn;
+    static Statement statement;
+    // Use constructor to connect to the database.
+    // There is a single connection for the life of this servlet,
+    // which is opened when the MyBCServlet class instance
+    // is first created.
+    public MyServlet () {
+        try {
+            Class.forName ("org.h2.Driver");
+            conn = DriverManager.getConnection (
+                    "jdbc:h2:~/Desktop/myservers/databases/rinkjobs",
+                    "sa",
+                    ""
+            );
+            statement = conn.createStatement();
+            System.out.println ("MyServlet: successful connection to H2 dbase");
+        }
+        catch (Exception e) {
+            // Bad news if we reach here.
+            e.printStackTrace ();
+        }
+    }
 
     public void doPost(HttpServletRequest req, HttpServletResponse resp)
     {
         System.out.println ("MyServlet: doPost");
-        //handleRequest(req, resp);
+        handleRequest(req, resp);
     }
 
 
     public void doGet(HttpServletRequest req, HttpServletResponse resp)
     {
         System.out.println ("MyServlet: doGet");
-        //handleRequest(req, resp);
+        handleRequest(req, resp);
     }
 
 
@@ -53,12 +78,13 @@ public class MyServlet extends HttpServlet {
             System.out.println ("Received: " + jStr);
 
             // WRITE CODE TO PARSE THE RECEIVED JSON into the
-            // VacationInfo object.
+            // DataFromJS object.
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
-            VacationInfo vInfo = gson.fromJson (jStr, VacationInfo.class);
-            vInfo.message = "Thank you, " + vInfo.name + ". We'll be in touch.";
-            System.out.println ("Received: user=" + vInfo.name);
-            System.out.println ("Received: message=" + vInfo.message);
+            DataFromJS data = gson.fromJson (jStr, DataFromJS.class);
+            System.out.println ("Received: login = " + data.login);
+            System.out.println ("Received: password = " + data.password);
+            System.out.println ("Received: servletAction = " + data.servletAction);
+
 
             // Next, put the response together.
 
@@ -69,8 +95,15 @@ public class MyServlet extends HttpServlet {
 
 
             // WRITE THE ONE LINE OF CODE TO build the output json
-            // from the vInfo object
-            String outputJson = gson.toJson (vInfo);
+            String outputJson = "";
+
+            // Assign a value to outputJson depending on servletAction
+            String action = data.servletAction;
+            if (action.equals("login")){
+                String uid = confirmUser(data.login, data.password);
+                System.out.println("uid: " + uid);
+                outputJson = "{\"uid\":" + uid + "}";
+            }
 
             // Write it out and, most importantly, flush():
             writer.write(outputJson);
@@ -81,6 +114,28 @@ public class MyServlet extends HttpServlet {
         }
         catch (Exception e) {
             e.printStackTrace();
+        }
+    } // End handleRequest()
+
+    String confirmUser (String login, String password)
+    {
+        try {
+            String uid = null;
+            String sql = "" +
+                    "SELECT UID FROM USER " +
+                    "WHERE LOGIN = '" + login + "' " +
+                    "AND PASSWORD = '" + password + "' ";
+            ResultSet rs = statement.executeQuery(sql);
+
+            while (rs.next()) {
+                uid= rs.getString(1);
+                System.out.println ("uid: " + uid);
+            }
+            return uid;
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            return null;
         }
     }
 
