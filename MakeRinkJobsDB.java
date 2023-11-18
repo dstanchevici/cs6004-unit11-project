@@ -28,11 +28,18 @@ public class MakeRinkJobsDB {
 
             // Now make a statement, which is the object used to issue
             // queries.
+
+
             statement = conn.createStatement ();
 
+
+
+            //String sql = "DELETE FROM USER WHERE LOGIN='test'";
+            //statement.executeUpdate (sql);
             // The user table:
-            makeUserTable ();
+            //makeUserTable ();
             printTable ("USER", 4);
+/*
 
             // The rink table:
             makeRinkTable ();
@@ -41,6 +48,8 @@ public class MakeRinkJobsDB {
             // The current book table:
             makeApplicationTable ();
             printTable ("APPLICATION", 9);
+
+*/
 
             // Close the connection, and we're done.
             conn.close();

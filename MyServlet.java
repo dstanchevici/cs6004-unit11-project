@@ -85,6 +85,8 @@ public class MyServlet extends HttpServlet {
             DataFromJS data = gson.fromJson (jStr, DataFromJS.class);
             System.out.println ("Received: login = " + data.login);
             System.out.println ("Received: password = " + data.password);
+            System.out.println ("Received: password = " + data.registerLogin);
+            System.out.println ("Received: password = " + data.registerPassword);
             System.out.println ("Received: servletAction = " + data.servletAction);
 
 
@@ -99,6 +101,9 @@ public class MyServlet extends HttpServlet {
             String action = data.servletAction;
             if (action.equals("login")){
                 confirmUser(data.login, data.password);
+            }
+            if (action.equals("register")){
+                registerUser(data.registerLogin, data.registerPassword);
             }
 
             // Write it out and, most importantly, flush():
@@ -150,4 +155,48 @@ public class MyServlet extends HttpServlet {
         }
     }
 
+    void registerUser(String registerLogin, String registerPassword) {
+        try {
+            System.out.println("Entered registerUser()");
+            String uid = null;
+
+            // Delete before inserting
+            String sql = "DELETE FROM USER WHERE LOGIN='" + registerLogin + "' AND PASSWORD='" + registerPassword + "'";
+            statement.executeUpdate (sql);
+
+            // Determine UID
+            sql = "SELECT MAX(UID) FROM USER";
+            ResultSet rs = statement.executeQuery(sql);
+            if (rs.next()) {
+                String maxID = rs.getString(1);
+            }
+            int newUID = Integer.parseInt(rs.getString(1)) + 1;
+
+            sql = "INSERT INTO USER VALUES (" +
+                    "" + newUID + ", " +
+                    "'" + registerLogin + "', " +
+                    "'" + registerPassword + "', " +
+                    "'applicant')";
+            statement.executeUpdate (sql);
+
+            sql = "SELECT * FROM USER WHERE UID=" + newUID;
+            rs = statement.executeQuery(sql);
+            if (rs.next()) {
+                System.out.println(rs.getString(1));
+                System.out.println(rs.getString(2));
+                System.out.println(rs.getString(3));
+                System.out.println(rs.getString(4));
+                outputJson = "{\"uid\":" + newUID + "}";
+            }
+            else {
+                outputJson = "{\"uid\":" + null + "}";
+            }
+
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            outputJson = "{\"uid\":" + null + "}";
+        }
+
+    }
 }

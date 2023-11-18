@@ -205,22 +205,21 @@ function requestLoginListener () {
 }
 
 function requestRegisterListener() {
-    const jsonObject = JSON.parse (this.responseText); // What I get from servlet
+    console.log ("Entered requestRegisterListener()");
+    let jsonObject = JSON.parse (this.responseText); // What I get from servlet
     jsonDataFromServer.uid = jsonObject.uid;
-    jsonDataFromServer.role = jsonObject.role;
+
 
     if (jsonDataFromServer.uid == null) {
-            $scope.registerErrorMessage = "The login and password do not match. Try again or register.";
-            //console.log("$scope.loginErrorMessage: " + $scope.loginErrorMessage);
-            document.getElementById("nomatch").innerHTML = "The login and password do not match. Try again or register.";
+            document.getElementById("failedregister").innerHTML = "The registration failed. Try again.";
         }
     else {
         const userID = jsonDataFromServer.uid.toString();
-        const role = jsonDataFromServer.role.toString();
         // Saves uid in browser memory so it is available on next page
         sessionStorage.setItem("UID", userID);
+        console.log ("jsonDataFromServer.uid.toString(): " + jsonDataFromServer.uid.toString());
 
-        //document.getElementById("nomatch").innerHTML = "";
+
     }
 }
 
