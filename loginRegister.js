@@ -19,7 +19,8 @@ const dataToServer = {
 
 let jsonDataFromServer = {
     uid: null,
-    role: null
+    role: null,
+    applied: false
 }
 
 const app = angular.module("myApp", ['ngMaterial', 'ngMessages']);
@@ -197,8 +198,11 @@ function requestLoginListener () {
             console.log ("Role = " + jsonDataFromServer.role + ". Moving to Manager page");
         }
         else {
-            // Go to Applicant page
-            console.log ("Role = " + jsonDataFromServer.role + ". Moving to Applicant page");
+            // If the role is Applicant, two scenarios:
+            // 1. If the applicant has already applied, got to Status page
+            // 2. Else, got to Application page
+            console.log ("role = " + jsonDataFromServer.role);
+            console.log ("applied = " + jsonDataFromServer.applied);
 
         }
     }

@@ -125,6 +125,8 @@ public class MyServlet extends HttpServlet {
         try {
             String uid = null;
             String role = null;
+            boolean applied = false;
+
             String sql = "" +
                     "SELECT UID, ROLE " +
                     "FROM USER " +
@@ -139,12 +141,19 @@ public class MyServlet extends HttpServlet {
                 System.out.println ("role: " + role);
             }
 
+            // If there is no account (and thus no UID), return failed login.
             if (uid == null) {
                 outputJson = "{\"uid\":" + uid + ", \"role\":" + role + "}";
                 System.out.println("outputJson: "+ outputJson);
             }
+            // If there is an account, return uid, role, and whether already applied or not
             else {
-                outputJson = "{\"uid\":\"" + uid + "\", \"role\":\"" + role + "\"}";
+                sql = "SELECT UID FROM APPLICATION WHERE UID='" + uid + "'";
+                rs = statement.executeQuery(sql);
+                if (rs.next()) {
+                    applied = true;
+                }
+                outputJson = "{\"uid\":\"" + uid + "\", \"role\":\"" + role + "\", \"applied\":" + applied + "}";
                 System.out.println("outputJson: "+ outputJson);
             }
 
