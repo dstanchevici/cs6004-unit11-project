@@ -108,17 +108,18 @@ public class ManageServlet extends HttpServlet {
             outputJson = "[";
             while (rs.next()) {
                 outputJson += "{\"location\":\"" + rs.getString(1) +
-                        "\", \"deskvacancies\": \"" + rs.getString(2) +
-                        "\", \"icevacancies\": \"" + rs.getString(3) + "\"},";
+                        "\", \"deskvacancies\":\"" + rs.getString(2) +
+                        "\", \"icevacancies\":\"" + rs.getString(3) + "\"},";
             }
-            System.out.println(outputJson);
+            //System.out.println(outputJson);
+
+            // To remove the comma after last object item.
+            if (outputJson.length() > 0 && outputJson.charAt(outputJson.length()-1)==',') {
+                outputJson = outputJson.substring(0, outputJson.length()-1);
+            }
+            //System.out.println(outputJson);
             outputJson += "]";
-/*            outputJson = "" +
-                    "[" +
-                    "{\"location\":\"Bethesda\", \"deskvacancies\": \"5\", \"icevacancies\": \"5\"}," +
-                    "{\"location\": \"Rockville\", \"deskvacancies\": \"5\", \"icevacancies\": \"5\"}," +
-                    "{\"location\": \"SomePlace\", \"deskvacancies\": \"340870987\", \"icevacancies\": \"48\"}" +
-                    "]";*/
+
             System.out.println("outputJson: "+ outputJson);
         }
         catch (Exception e) {
