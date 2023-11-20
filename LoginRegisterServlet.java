@@ -10,7 +10,7 @@ import com.google.gson.*;
 
 // This class serves the dataToServer object in js files.
 // Update this clas as you update the js object.
-class DataFromJS {
+class DataFromLoginRegister {
     String login;
     String password;
     String registerLogin;
@@ -21,7 +21,7 @@ class DataFromJS {
 
 }
 
-public class MyServlet extends HttpServlet {
+public class LoginRegisterServlet extends HttpServlet {
 
     // WRITE THE ONE LINE OF CODE TO build the output json
     static String outputJson = "";
@@ -31,7 +31,7 @@ public class MyServlet extends HttpServlet {
     // There is a single connection for the life of this servlet,
     // which is opened when the MyBCServlet class instance
     // is first created.
-    public MyServlet () {
+    public LoginRegisterServlet () {
         try {
             Class.forName ("org.h2.Driver");
             conn = DriverManager.getConnection (
@@ -40,7 +40,7 @@ public class MyServlet extends HttpServlet {
                     ""
             );
             statement = conn.createStatement();
-            System.out.println ("MyServlet: successful connection to H2 dbase");
+            System.out.println ("LoginRegisterServlet: successful connection to H2 dbase");
         }
         catch (Exception e) {
             // Bad news if we reach here.
@@ -50,14 +50,14 @@ public class MyServlet extends HttpServlet {
 
     public void doPost(HttpServletRequest req, HttpServletResponse resp)
     {
-        System.out.println ("MyServlet: doPost");
+        System.out.println ("LoginRegisterServlet: doPost");
         handleRequest(req, resp);
     }
 
 
     public void doGet(HttpServletRequest req, HttpServletResponse resp)
     {
-        System.out.println ("MyServlet: doGet");
+        System.out.println ("LoginRegisterServlet: doGet");
         handleRequest(req, resp);
     }
 
@@ -80,9 +80,9 @@ public class MyServlet extends HttpServlet {
             System.out.println ("Received: " + jStr);
 
             // WRITE CODE TO PARSE THE RECEIVED JSON into the
-            // DataFromJS object.
+            // DataFromLoginRegister object.
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
-            DataFromJS data = gson.fromJson (jStr, DataFromJS.class);
+            DataFromLoginRegister data = gson.fromJson (jStr, DataFromLoginRegister.class);
             System.out.println ("Received: login = " + data.login);
             System.out.println ("Received: password = " + data.password);
             System.out.println ("Received: password = " + data.registerLogin);
@@ -169,7 +169,7 @@ public class MyServlet extends HttpServlet {
             System.out.println("Entered registerUser()");
             String uid = null;
 
-            // Delete before inserting
+            // If the entered login/password combination exists, delete this profile before inserting
             String sql = "DELETE FROM USER WHERE LOGIN='" + registerLogin + "' AND PASSWORD='" + registerPassword + "'";
             statement.executeUpdate (sql);
 

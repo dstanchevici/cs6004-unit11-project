@@ -1,14 +1,9 @@
 
 // Servlet's URL
-const url = "http://localhost:40104/rinkjobs";
+const url = "http://localhost:40104/loginregisterServlet";
 
-// Object includes data from all forms of the website.
-// This object is the same (update by copying/pasting) in all js files.
-// Its content and strucure is replicated in Servlet.
-// Update class in serlvet after every update in the js objects.
-// Question: To avoid passing a large object every time,
-// should there be a servlet for every form?
-//
+// Object includes data from the loginregister page
+
 const dataToServer = {
     login: null,
     password: null,
@@ -171,9 +166,26 @@ function sendDataToServer($scope){
 
         req.open("POST", url);
         req.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+
+       /* req.onload = () => {
+            // response comes as a string in json format
+            // so it needs to be converted to a javascript object
+           const dataAsJsonObj = JSON.parse(req.response);
+           jsonDataFromServer.uid = data.uid;
+           console.log("jsonDataFromServer.uid: " + jsonDataFromServer.uid);
+
+           updateView($scope);
+
+        };*/
+
+
         req.send(JSON.stringify(dataToServer));
         console.log ("Sent to server: json=" + JSON.stringify(dataToServer));
 }
+
+/*function updateView($scope) {
+    $scope.loginErrorMessage = "UID = " + jsonDataFromServer.uid;
+}*/
 
 function requestLoginListener () {
     console.log ("this.responseText: " + this.responseText);
@@ -183,18 +195,22 @@ function requestLoginListener () {
     jsonDataFromServer.role = jsonObject.role;
 
     if (jsonDataFromServer.uid == null) {
+        // Error message: The entered login/psw do not check again the User db.
         document.getElementById("nomatch").innerHTML = "The login and password do not match. Try again or register.";
     }
     else {
         const userID = jsonDataFromServer.uid.toString();
         const role = jsonDataFromServer.role.toString();
         // Saves uid in browser memory so it is available on next page
-        sessionStorage.setItem("UID", userID);
 
+
+        // Clear the error message about the login/psw not checking against the User db.
         document.getElementById("nomatch").innerHTML = "";
 
         if (role === "manager") {
+            sessionStorage.setItem("UID", userID);
             // Go to manager page
+            window.location.href = "http://localhost:40104/manageapplications.html";
             console.log ("Role = " + jsonDataFromServer.role + ". Moving to Manager page");
         }
         else {

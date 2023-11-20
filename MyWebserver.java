@@ -26,7 +26,8 @@ public class MyWebserver {
             ServletContextHandler sHandler = new ServletContextHandler(ServletContextHandler.SESSIONS);
 
             // We want the form URL /form to go to MyFormServlet
-            sHandler.addServlet(new ServletHolder(new MyServlet()),"/rinkjobs");
+            sHandler.addServlet(new ServletHolder(new LoginRegisterServlet()),"/loginregisterServlet");
+            sHandler.addServlet(new ServletHolder(new ManageServlet()),"/manageServlet");
             // Put all of these "handlers" into the server.
             ContextHandlerCollection contexts = new ContextHandlerCollection();
             contexts.setHandlers(new Handler[] { cHandler, sHandler });

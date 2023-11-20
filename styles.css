@@ -3,6 +3,11 @@
     padding: 15px;
 }
 
+.managerbody {
+    background-color: lightgrey;
+    padding: 15px;
+}
+
 .column {
     border-left: 1px solid lightgrey;
     padding:15px;
@@ -13,6 +18,16 @@
     color: red;
 }
 
+table, td, th {
+  border: 1px solid grey;
+  border-collapse: collapse;
+  padding: 10px;
+  text-align: right;
+  white-space: nowrap;
+  width: 1%;
+}
+
 .toolBarText {
     padding: 15px;
 }
+

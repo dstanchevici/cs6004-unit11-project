@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+
+    <!--To remove the favicon.ico error from console-->
+    <!--Found solution here https://stackoverflow.com/questions/30693021/chrome-developer-tools-shows-favicon-404-error-in-brackets-livepreview-->
+    <link rel="icon" href="data:;base64,iVBORwOKGO=" />
+
+    <!--Styles-->
+    <link rel="stylesheet" href="styles.css">
+
+      <!--ANGULAR + MATERIAL: directly from google-->
+    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/angular_material/1.1.12/angular-material.min.css"></link>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.6/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.6/angular-animate.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.6/angular-aria.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.6/angular-messages.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angular_material/1.1.12/angular-material.min.js"></script>
+
+    <!--  OUR SCRIPTS ----------------------------------------- -->
+    <script src="manageapplications.js"> </script>
+</head>
+
+<body class="managerbody" ng-app="myApp" ng-controller="myController" md-theme="customTheme" ng-cloak>
+
+    <md-toolbar class="md-primary">
+        <p class="toolBarText">Jobs at Public Outdoor Ice Rinks: Manage Applications</p>
+    </md-toolbar>
+
+    <!--One row of two columns-->
+    <section layout="row">
+        <!-- Left column for Application and decision buttons --->
+        <section class="column" layout="column">
+            <h2>Application and Decision Buttons</h2>
+        </section>
+
+    <!-- Right column for Locations and Vacancies-------------->
+        <section class="column" layout="column">
+            <h2>Locations and Vacancies</h2>
+            <table>
+                <tr>
+                    <th>Location</th>
+                    <th>Vacancies at Desk</th>
+                    <th>Vacancies on Ice</th>
+                </tr>
+                <tr ng-repeat="v in vacancies">
+                    <td>{{v.location}}</td>
+                    <td>{{v.deskvacancies}}</td>
+                    <td>{{v.icevacancies}}</td>
+                </tr>
+            </table>
+            <md-content class="errorMessage">
+                {{errorMessage}}
+            </md-content>
+        </section> <!--End of Right Col-->
+
+    </section> <!--End of Row section-->
+
+</body>
+</html>
