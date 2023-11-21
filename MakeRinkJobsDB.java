@@ -6,6 +6,7 @@
 * */
 
 import java.sql.*;
+import java.time.LocalDate;
 
 public class MakeRinkJobsDB {
 
@@ -36,20 +37,20 @@ public class MakeRinkJobsDB {
 
             //String sql = "DELETE FROM USER WHERE LOGIN='test'";
             //statement.executeUpdate (sql);
-            // The user table:
-            //makeUserTable ();
+            //The user table:
+            makeUserTable ();
             printTable ("USER", 4);
-/*
 
-            // The rink table:
+
+            //The rink table:
             makeRinkTable ();
             printTable ("RINK", 3);
 
             // The current book table:
             makeApplicationTable ();
-            printTable ("APPLICATION", 9);
+            printTable ("APPLICATION", 13);
 
-*/
+
 
             // Close the connection, and we're done.
             conn.close();
@@ -136,13 +137,18 @@ public class MakeRinkJobsDB {
                 "LASTNAME VARCHAR(25), " +
                 "AGE INT, " +
                 "EMAIL VARCHAR(50), " +
-                "JOBPREFERENCE VARCHAR(25), " +
                 "LOCATIONPREFERENCE VARCHAR(25), " +
+                "JOBPREFERENCE VARCHAR(25), " +
                 "SKATINGSKILL INT, " +
-                "STATUS VARCHAR(25)" +
+                "APPLICATIONDATE DATE, " +
+                "STATUS VARCHAR(25), " +
+                "LOCATIONASSIGNMENT VARCHAR(25), " +
+                "JOBASSIGNMENT VARCHAR(25), " +
+                "REVIEWDATE DATE" +
                 ")";
         statement.executeUpdate (sql);
 
+        String currentDate = String.valueOf(java.time.LocalDate.now());
         sql = "INSERT INTO APPLICATION VALUES " +
                 "(" +
                     "2, " +
@@ -150,10 +156,14 @@ public class MakeRinkJobsDB {
                     "'Lurie', " +
                     "16, " +
                     "'slurie@mcc.edu', " +
-                    "'ice', " +
                     "'Rockville', " +
+                    "'ice', " +
                     "85, " +
-                    "'under_review'" +
+                    "'" + currentDate + "', " +
+                    "'under_review', " +
+                    "NULL, " +
+                    "NULL, " +
+                    "NULL" +
                 ")";
         statement.executeUpdate (sql);
 
@@ -164,10 +174,14 @@ public class MakeRinkJobsDB {
                 "'Alvarez', " +
                 "20, " +
                 "'alvarez2020@gmail.com', " +
-                "'desk', " +
                 "'Gaithersburg', " +
+                "'desk', " +
                 "60, " +
-                "'under_review'" +
+                "'" + currentDate + "', " +
+                "'under_review', " +
+                "NULL, " +
+                "NULL, " +
+                "NULL" +
                 ")";
         statement.executeUpdate (sql);
 

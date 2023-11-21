@@ -28,34 +28,45 @@
         <p class="toolBarText">Jobs at Public Outdoor Ice Rinks: Manage Applications</p>
     </md-toolbar>
 
-    <!--One row of two columns-->
-    <section layout="row">
-        <!-- Left column for Application and decision buttons --->
-        <section class="column" layout="column">
-            <h2>Application and Decision Buttons</h2>
-        </section>
+    <div class="sidebar">
+        <h2>Vacancies</h2>
+        <p ng-repeat="v in vacancies">
+            <strong>{{v.location}}</strong>
+            <br>
+            &nbsp;Desk: {{v.deskvacancies}} <br>
+            &nbsp;Ice: {{v.icevacancies}}
+        </p>
+    </div>
 
-    <!-- Right column for Locations and Vacancies-------------->
-        <section class="column" layout="column">
-            <h2>Locations and Vacancies</h2>
-            <table>
-                <tr>
-                    <th>Location</th>
-                    <th>Vacancies at Desk</th>
-                    <th>Vacancies on Ice</th>
-                </tr>
-                <tr ng-repeat="v in vacancies">
-                    <td>{{v.location}}</td>
-                    <td>{{v.deskvacancies}}</td>
-                    <td>{{v.icevacancies}}</td>
-                </tr>
-            </table>
-            <md-content class="errorMessage">
-                {{errorMessage}}
-            </md-content>
-        </section> <!--End of Right Col-->
+    <div class="main-content">
+        <h2>Evaluate Applications Under Review</h2>
+        <table>
+            <tr ng-repeat="a in applications">
+                <td>
+                    <h3>Applicant's Information</h3>
+                    <p>
+                        <strong>UID:</strong> {{a.uid}}<br>
+                        <strong>First Name:</strong> {{a.firstName}}<br>
+                        <strong>Last Name:</strong> {{a.lastName}}<br>
+                        <strong>Age:</strong> {{a.age}}<br>
+                        <strong>Email:</strong> {{a.email}}<br>
+                        <strong>Location Preference:</strong> {{a.locationPreference}}<br>
+                        <strong>Job Preference:</strong> {{a.jobPreference}}<br>
+                        <strong>Skating Skill:</strong> {{a.skatingSkill}}<br>
+                        <strong>Application Date:</strong> {{a.applicationDate}}<br>
+                        <strong>Status:</strong> {{a.status}}<br>
+                        <strong>Location Assignment:</strong> {{a.locationAssignment}}<br>
+                        <strong>Job Assignment:</strong> {{a.jobAssignment}}<br>
+                        <strong>Review Date:</strong> {{a.reviewDate}}<br>
+                    </p>
+                </td>
+                <td>
+                    <h3>Manager's Decision</h3>
+                </td>
+            </tr>
 
-    </section> <!--End of Row section-->
+        </table>
 
+    </div>
 </body>
 </html>

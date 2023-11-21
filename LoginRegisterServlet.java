@@ -119,8 +119,9 @@ public class LoginRegisterServlet extends HttpServlet {
     } // End handleRequest()
 
     // This method retrieves uid and role, if available,
-    // and puts them in outputJason
-    void confirmUser (String login, String password)
+    // and puts them in outputJason.
+    // The keyword synchronized is used to handle multiple simultaneous users.
+    synchronized void confirmUser (String login, String password)
     {
         try {
             String uid = null;
@@ -164,7 +165,8 @@ public class LoginRegisterServlet extends HttpServlet {
         }
     }
 
-    void registerUser(String registerLogin, String registerPassword) {
+    // The keyword synchronized is used to handle multiple simultaneous users.
+    synchronized void registerUser(String registerLogin, String registerPassword) {
         try {
             System.out.println("Entered registerUser()");
             String uid = null;

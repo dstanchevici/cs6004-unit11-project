@@ -1,13 +1,4 @@
 
-.body {
-    padding: 15px;
-}
-
-.managerbody {
-    background-color: lightgrey;
-    padding: 15px;
-}
-
 .column {
     border-left: 1px solid lightgrey;
     padding:15px;
@@ -18,11 +9,34 @@
     color: red;
 }
 
+.managerbody {
+    background-color: lightgrey;
+}
+
+.main-content {
+    width: 90vw;
+    margin-left: 10vw;
+    padding-left: 25px;
+    padding-right: 5px;
+
+}
+
+.sidebar {
+    position: fixed;
+    left: 0;
+    top: 50;
+
+    padding-left: 5px;
+    padding-right: 5px;
+    width: 10vw;
+
+}
+
 table, td, th {
   border: 1px solid grey;
   border-collapse: collapse;
   padding: 10px;
-  text-align: right;
+  text-align: left;
   white-space: nowrap;
   width: 1%;
 }

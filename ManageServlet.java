@@ -85,6 +85,9 @@ public class ManageServlet extends HttpServlet {
             if (action.equals("getVacancies")) {
                 getVacancies();
             }
+            else if (action.equals("getApplicationsUnderReview")) {
+                getApplicationsUnderReview();
+            }
 
 
             // Write it out and, most importantly, flush():
@@ -99,7 +102,10 @@ public class ManageServlet extends HttpServlet {
         }
     } // End handleRequest
 
-    void getVacancies()
+    // The keyword synchronized is used to handle multiple simultaneous users.
+    // It is redundant now b/c there is only one manager in the USER db.
+    // However, there may be more than one manager.
+    synchronized void getVacancies()
     {
         try {
             String sql = "SELECT * FROM RINK";
@@ -121,6 +127,41 @@ public class ManageServlet extends HttpServlet {
             outputJson += "]";
 
             System.out.println("outputJson: "+ outputJson);
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    synchronized void getApplicationsUnderReview (){
+        try {
+            String sql = "SELECT * FROM APPLICATION WHERE STATUS='under_review'";
+            ResultSet rs = statement.executeQuery(sql);
+            outputJson = "[";
+            while (rs.next()) {
+                outputJson += "{\"uid\":\"" + rs.getString(1) +
+                        "\", \"firstName\":\"" + rs.getString(2) +
+                        "\", \"lastName\":\"" + rs.getString(3) +
+                        "\", \"age\":\"" + rs.getString(4) +
+                        "\", \"email\":\"" + rs.getString(5) +
+                        "\", \"locationPreference\":\"" + rs.getString(6) +
+                        "\", \"jobPreference\":\"" + rs.getString(7) +
+                        "\", \"skatingSkill\":\"" + rs.getString(8) +
+                        "\", \"applicationDate\":\"" + rs.getString(9) +
+                        "\", \"status\":\"" + rs.getString(10) +
+                        "\", \"locationAssignment\":\"" + rs.getString(11) +
+                        "\", \"jobAssignment\":\"" + rs.getString(12) +
+                        "\", \"reviewDate\":\"" + rs.getString(13) + "\"},";
+                System.out.println(outputJson);
+            }
+            //System.out.println(outputJson);
+
+            // To remove the comma after last object item.
+            if (outputJson.length() > 0 && outputJson.charAt(outputJson.length()-1)==',') {
+                outputJson = outputJson.substring(0, outputJson.length()-1);
+            }
+            //System.out.println(outputJson);
+            outputJson += "]";
         }
         catch (Exception e) {
             e.printStackTrace();

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<!--One row of two columns-->
+<section layout="row">
+  <!-- Left column for Application and decision buttons --->
+  <section class="column" layout="column">
+    <h2>Application and Decision Buttons</h2>
+  </section>
+
+  <!-- Right column for Locations and Vacancies-------------->
+  <section class="column" layout="column">
+    <h2>Locations and Vacancies</h2>
+    <table>
+      <tr>
+        <th>Location</th>
+        <th>Vacancies at Desk</th>
+        <th>Vacancies on Ice</th>
+      </tr>
+      <tr ng-repeat="v in vacancies">
+        <td>{{v.location}}</td>
+        <td>{{v.deskvacancies}}</td>
+        <td>{{v.icevacancies}}</td>
+      </tr>
+    </table>
+  </section> <!--End of Right Col-->
+
+</section> <!--End of Row section-->
+
+</body>
+</html>
