@@ -23,8 +23,19 @@ app.controller("myController", function($scope) {
     // Get vacancies from the server (from the RINK DB) and assign them to $scope.vacancies as an array of objects
     getVacanciesFromServer($scope);
 
-    // Get applications under review from the server (from the APPLICATION DB) and assign them to $scope.applications as an array of objects
+    // Get applications[] under review from the server (from the APPLICATION DB) and assign them to $scope.applications as an array of objects
     getApplicationsUnderReviewFromServer($scope);
+
+    // Manager's Decision
+
+    // approve=1, reject=2
+    $scope.approveOrReject = 0;
+
+    // The index linked to vacancies.locations is assigned (e.g., 1 is for Bethesda, etc.)
+    $scope.assignedLocation = 0;
+
+    // Desk=1, ice=2
+    $scope.assignedJob = 0;
 
 });
 
@@ -73,3 +84,4 @@ function getApplicationsUnderReviewFromServer($scope) {
     req.send(JSON.stringify(dataToServer));
     console.log ("Sent to server: json=" + JSON.stringify(dataToServer));
 }
+

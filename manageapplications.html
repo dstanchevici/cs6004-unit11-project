@@ -24,7 +24,7 @@
 
 <body class="managerbody" ng-app="myApp" ng-controller="myController" md-theme="customTheme" ng-cloak>
 
-    <md-toolbar class="md-primary">
+    <md-toolbar class="toolbar" class="md-primary">
         <p class="toolBarText">Jobs at Public Outdoor Ice Rinks: Manage Applications</p>
     </md-toolbar>
 
@@ -62,6 +62,36 @@
                 </td>
                 <td>
                     <h3>Manager's Decision</h3>
+
+                    <md-content>
+                        Decide whether to approve or reject:
+                        <md-radio-group ng-model="approveOrReject" class="md-primary">
+                            <md-radio-button ng-value=1>Approve</md-radio-button>
+                            <md-radio-button ng-value=2>Reject</md-radio-button>
+                        </md-radio-group>
+                    </md-content>
+                    For UID {{a.uid}} you chose {{approveOrReject}}
+                    <md-divider ng-if="!$last"></md-divider>
+
+                    <md-content>
+                        If you have approved, assign the location:
+                        <md-radio-group ng-model="assignedLocation" class="md-primary">
+                            <md-radio-button ng-repeat="v in vacancies" ng-value="v.index">{{v.location}}</md-radio-button>
+                        </md-radio-group>
+                    </md-content>
+                    For UID {{a.uid}} you chose {{assignedLocation}}
+                    <md-divider ng-if="!$last"></md-divider>
+
+                    <md-content>
+                        If you have approved, assign the job type:
+                        <md-radio-group ng-model="assignedJob" class="md-primary">
+                            <md-radio-button ng-value=1>Desk</md-radio-button>
+                            <md-radio-button ng-value=2>Ice</md-radio-button>
+                        </md-radio-group>
+                    </md-content>
+                    For UID {{a.uid}} you chose {{assignedJob}}
+                    <md-divider ng-if="!$last"></md-divider>
+
                 </td>
             </tr>
 

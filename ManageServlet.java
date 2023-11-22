@@ -111,11 +111,14 @@ public class ManageServlet extends HttpServlet {
             String sql = "SELECT * FROM RINK";
             ResultSet rs = statement.executeQuery(sql);
 
+            int index = 0;
             outputJson = "[";
             while (rs.next()) {
+                index++;
                 outputJson += "{\"location\":\"" + rs.getString(1) +
                         "\", \"deskvacancies\":\"" + rs.getString(2) +
-                        "\", \"icevacancies\":\"" + rs.getString(3) + "\"},";
+                        "\", \"icevacancies\":\"" + rs.getString(3) +
+                        "\", \"index\":\"" + index + "\"},";
             }
             //System.out.println(outputJson);
 
