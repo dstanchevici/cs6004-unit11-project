@@ -193,6 +193,7 @@ function requestLoginListener () {
     const jsonObject = JSON.parse (this.responseText); // What I get from servlet
     jsonDataFromServer.uid = jsonObject.uid;
     jsonDataFromServer.role = jsonObject.role;
+    jsonDataFromServer.applied = jsonObject.applied;
 
     if (jsonDataFromServer.uid == null) {
         // Error message: The entered login/psw do not check again the User db.
@@ -210,12 +211,13 @@ function requestLoginListener () {
         if (role === "manager") {
             sessionStorage.setItem("UID", userID);
             // Go to manager page
-            window.location.href = "http://localhost:40104/manageapplications.html";
+            window.location.href = "http://localhost:40104/reviewapplications.html";
             console.log ("Role = " + jsonDataFromServer.role + ". Moving to Manager page");
         }
         else {
+            // TODO
             // If the role is Applicant, two scenarios:
-            // 1. If the applicant has already applied, got to Status page
+            // 1. If the applicant has already applied, go to Status page
             // 2. Else, got to Application page
             console.log ("role = " + jsonDataFromServer.role);
             console.log ("applied = " + jsonDataFromServer.applied);

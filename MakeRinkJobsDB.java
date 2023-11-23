@@ -102,6 +102,10 @@ public class MakeRinkJobsDB {
         statement.executeUpdate (sql);
         sql = "INSERT INTO USER VALUES (3, 'miguel', 'm123', 'applicant')";
         statement.executeUpdate (sql);
+        sql = "INSERT INTO USER VALUES (4, 'sally', 's123', 'applicant')";
+        statement.executeUpdate (sql);
+        sql = "INSERT INTO USER VALUES (5, 'bob', 'b123', 'applicant')";
+        statement.executeUpdate (sql);
     }
 
 
@@ -115,7 +119,7 @@ public class MakeRinkJobsDB {
 
         sql = "INSERT INTO RINK VALUES ('Bethesda', 5, 5)";
         statement.executeUpdate (sql);
-        sql = "INSERT INTO RINK VALUES ('Gaithersburg', 5, 5)";
+        sql = "INSERT INTO RINK VALUES ('Gaithersburg', 4, 5)";
         statement.executeUpdate (sql);
         sql = "INSERT INTO RINK VALUES ('Rockville', 5, 5)";
         statement.executeUpdate (sql);
@@ -182,6 +186,42 @@ public class MakeRinkJobsDB {
                 "NULL, " +
                 "NULL, " +
                 "NULL" +
+                ")";
+        statement.executeUpdate (sql);
+
+        sql = "INSERT INTO APPLICATION VALUES " +
+                "(" +
+                "4, " +
+                "'Sally', " +
+                "'Greene', " +
+                "18, " +
+                "'greene10@gmail.com', " +
+                "'Gaithersburg', " +
+                "'desk', " +
+                "10, " +
+                "'" + currentDate + "', " +
+                "'approved', " +
+                "'Gaithersburg', " +
+                "'desk', " +
+                "'2023-11-23'" +
+                ")";
+        statement.executeUpdate (sql);
+
+        sql = "INSERT INTO APPLICATION VALUES " +
+                "(" +
+                "5, " +
+                "'Bob', " +
+                "'Dylan', " +
+                "75, " +
+                "'blues@yahoo.com', " +
+                "'Rockville', " +
+                "'ice', " +
+                "100, " +
+                "'" + currentDate + "', " +
+                "'rejected', " +
+                "NULL, " +
+                "NULL, " +
+                "'2023-11-23'" +
                 ")";
         statement.executeUpdate (sql);
 

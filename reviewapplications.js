@@ -24,20 +24,10 @@ app.controller("myController", function($scope) {
     getVacanciesFromServer($scope);
 
     // Get applications[] under review from the server (from the APPLICATION DB) and assign them to $scope.applications as an array of objects
-    getApplicationsUnderReviewFromServer($scope);
-
-    // Manager's Decision
-
-    // approve=1, reject=2
-    $scope.approveOrReject = 0;
-
-    // The index linked to vacancies.locations is assigned (e.g., 1 is for Bethesda, etc.)
-    $scope.assignedLocation = 0;
-
-    // Desk=1, ice=2
-    $scope.assignedJob = 0;
+    getApplicationsFromServer($scope);
 
 });
+
 
 function getVacanciesFromServer($scope) {
     dataToServer.servletAction = "getVacancies";
@@ -62,8 +52,8 @@ function getVacanciesFromServer($scope) {
     console.log ("Sent to server: json=" + JSON.stringify(dataToServer));
 }
 
-function getApplicationsUnderReviewFromServer($scope) {
-    dataToServer.servletAction = "getApplicationsUnderReview";
+function getApplicationsFromServer($scope) {
+    dataToServer.servletAction = "getApplications";
     console.log ("dataToServer.servletAction: " + dataToServer.servletAction);
     console.log ("To be sent to server: json=" + JSON.stringify(dataToServer));
 

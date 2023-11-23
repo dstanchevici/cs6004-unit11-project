@@ -1,35 +1,163 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+  <meta charset="UTF-8">
+
+  <!--To remove the favicon.ico error from console-->
+  <!--Found solution here https://stackoverflow.com/questions/30693021/chrome-developer-tools-shows-favicon-404-error-in-brackets-livepreview-->
+  <link rel="icon" href="data:;base64,iVBORwOKGO=" />
+
+  <!--Styles-->
+  <link rel="stylesheet" href="styles.css">
+
+  <!--ANGULAR + MATERIAL: directly from google-->
+  <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/angular_material/1.1.12/angular-material.min.css"></link>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.6/angular.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.6/angular-animate.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.6/angular-aria.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.6/angular-messages.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angular_material/1.1.12/angular-material.min.js"></script>
+
+  <!--  OUR SCRIPTS ----------------------------------------- -->
+  <script src="sandbox.js"> </script>
 </head>
-<body>
-<!--One row of two columns-->
-<section layout="row">
-  <!-- Left column for Application and decision buttons --->
-  <section class="column" layout="column">
-    <h2>Application and Decision Buttons</h2>
-  </section>
 
-  <!-- Right column for Locations and Vacancies-------------->
-  <section class="column" layout="column">
-    <h2>Locations and Vacancies</h2>
-    <table>
-      <tr>
-        <th>Location</th>
-        <th>Vacancies at Desk</th>
-        <th>Vacancies on Ice</th>
-      </tr>
-      <tr ng-repeat="v in vacancies">
-        <td>{{v.location}}</td>
-        <td>{{v.deskvacancies}}</td>
-        <td>{{v.icevacancies}}</td>
-      </tr>
-    </table>
-  </section> <!--End of Right Col-->
+<body class="managerbody" ng-app="myApp" ng-controller="myController" md-theme="customTheme" ng-cloak>
+  <h1>Forms</h1>
+  <div ng-repeat="f in forms">
+<!--
+    <form name="form" id="form" onsubmit="return false">
+-->
+      <p>UID: {{f.uid}}</p>
+      <md-radio-group ng-model="f.approveOrReject" class="md-primary">
+        <md-radio-button ng-value=1>Approve</md-radio-button>
+        <md-radio-button ng-value=2>Reject</md-radio-button>
+      </md-radio-group>
+      <md-button class="md-raised md-primary" ng-click="submitDecision();">
+        Submit Decision
+      </md-button>
+      <br>
 
-</section> <!--End of Row section-->
+      <md-divider ng-if="!$last"></md-divider>
 
+    <!--</form>-->
+  </div>
+
+
+  </form>
 </body>
 </html>
+
+
+
+<!--<td>
+
+  <form name="managerdecision" id="managerdecision" onsubmit="return false">
+    &lt;!&ndash;<input type="hidden" ng-model="currentUID" value="a.uid">&ndash;&gt;
+    <h3>Manager's Decision</h3>
+    <md-content>
+      Decide whether to approve or reject:
+      <md-radio-group ng-model="approveOrReject" class="md-primary">
+        <md-radio-button ng-value=1>Approve</md-radio-button>
+        <md-radio-button ng-value=2>Reject</md-radio-button>
+      </md-radio-group>
+    </md-content>
+    For UID {{a.uid}} you chose {{approveOrReject}}
+    <md-divider ng-if="!$last"></md-divider>
+
+    <md-content>
+      If you have approved, assign the location:
+      <md-radio-group ng-model="assignedLocation" class="md-primary">
+        <md-radio-button ng-repeat="v in vacancies" ng-value="v.index">{{v.location}}</md-radio-button>
+      </md-radio-group>
+    </md-content>
+    For UID {{a.uid}} you chose {{assignedLocation}}
+    <md-divider ng-if="!$last"></md-divider>
+
+    <md-content>
+      If you have approved, assign the job type:
+      <md-radio-group ng-model="assignedJob" class="md-primary">
+        <md-radio-button ng-value=1>Desk</md-radio-button>
+        <md-radio-button ng-value=2>Ice</md-radio-button>
+      </md-radio-group>
+    </md-content>
+    For UID {{a.uid}} you chose {{assignedJob}}
+    <md-divider ng-if="!$last"></md-divider>
+    <div style="text-align: center">
+      <md-button class="md-raised md-primary" ng-click="submitDecision();">
+        Submit Decision
+      </md-button>
+    </div>
+    <p class="errorMessage">{{decisionError}}</p>
+  </form>
+
+</td>-->
+
+
+<!--
+<div class="evaluationbar">
+    <h2>Manager's Decision</h2>
+    <form name="managerdecision" id="managerdecision" onsubmit="return false">
+        &lt;!&ndash;<input type="hidden" ng-model="currentUID" value="a.uid">&ndash;&gt;
+        <h3>Manager's Decision</h3>
+        <md-content>
+            Decide whether to approve or reject:
+            <md-radio-group ng-model="approveOrReject" class="md-primary">
+                <md-radio-button ng-value=1>Approve</md-radio-button>
+                <md-radio-button ng-value=2>Reject</md-radio-button>
+            </md-radio-group>
+        </md-content>
+        For UID {{a.uid}} you chose {{approveOrReject}}
+        <md-divider ng-if="!$last"></md-divider>
+
+        <md-content>
+            If you have approved, assign the location:
+            <md-radio-group ng-model="assignedLocation" class="md-primary">
+                <md-radio-button ng-repeat="v in vacancies" ng-value="v.index">{{v.location}}</md-radio-button>
+            </md-radio-group>
+        </md-content>
+        For UID {{a.uid}} you chose {{assignedLocation}}
+        <md-divider ng-if="!$last"></md-divider>
+
+        <md-content>
+            If you have approved, assign the job type:
+            <md-radio-group ng-model="assignedJob" class="md-primary">
+                <md-radio-button ng-value=1>Desk</md-radio-button>
+                <md-radio-button ng-value=2>Ice</md-radio-button>
+            </md-radio-group>
+        </md-content>
+        For UID {{a.uid}} you chose {{assignedJob}}
+        <md-divider ng-if="!$last"></md-divider>
+        <div style="text-align: center">
+            <md-button class="md-raised md-primary" ng-click="submitDecision();">
+                Submit Decision
+            </md-button>
+        </div>
+        <p class="errorMessage">{{decisionError}}</p>
+    </form>
+
+</div>-->
+
+<!--
+<h2>Evaluate Applications Under Review</h2>
+<div ng-repeat="a in applications">
+    <h3>Applicant's Information</h3>
+    <p>
+        <strong>UID:</strong> {{a.uid}}<br>
+        <strong>First Name:</strong> {{a.firstName}}<br>
+        <strong>Last Name:</strong> {{a.lastName}}<br>
+        <strong>Age:</strong> {{a.age}}<br>
+        <strong>Email:</strong> {{a.email}}<br>
+        <strong>Location Preference:</strong> {{a.locationPreference}}<br>
+        <strong>Job Preference:</strong> {{a.jobPreference}}<br>
+        <strong>Skating Skill:</strong> {{a.skatingSkill}}<br>
+        <strong>Application Date:</strong> {{a.applicationDate}}<br>
+        <strong>Status:</strong> {{a.status}}<br>
+        <strong>Location Assignment:</strong> {{a.locationAssignment}}<br>
+        <strong>Job Assignment:</strong> {{a.jobAssignment}}<br>
+        <strong>Review Date:</strong> {{a.reviewDate}}<br>
+    </p>
+    <md-divider ng-if="!$last"></md-divider>
+</div>
+
+-->

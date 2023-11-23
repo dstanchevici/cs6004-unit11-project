@@ -85,8 +85,8 @@ public class ManageServlet extends HttpServlet {
             if (action.equals("getVacancies")) {
                 getVacancies();
             }
-            else if (action.equals("getApplicationsUnderReview")) {
-                getApplicationsUnderReview();
+            else if (action.equals("getApplications")) {
+                getApplications();
             }
 
 
@@ -136,9 +136,9 @@ public class ManageServlet extends HttpServlet {
         }
     }
 
-    synchronized void getApplicationsUnderReview (){
+    synchronized void getApplications (){
         try {
-            String sql = "SELECT * FROM APPLICATION WHERE STATUS='under_review'";
+            String sql = "SELECT * FROM APPLICATION";
             ResultSet rs = statement.executeQuery(sql);
             outputJson = "[";
             while (rs.next()) {

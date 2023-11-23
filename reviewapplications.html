@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+
+    <!--To remove the favicon.ico error from console-->
+    <!--Found solution here https://stackoverflow.com/questions/30693021/chrome-developer-tools-shows-favicon-404-error-in-brackets-livepreview-->
+    <link rel="icon" href="data:;base64,iVBORwOKGO=" />
+
+    <!--Styles-->
+    <link rel="stylesheet" href="styles.css">
+
+      <!--ANGULAR + MATERIAL: directly from google-->
+    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/angular_material/1.1.12/angular-material.min.css"></link>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.6/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.6/angular-animate.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.6/angular-aria.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.6/angular-messages.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angular_material/1.1.12/angular-material.min.js"></script>
+
+    <!--  OUR SCRIPTS ----------------------------------------- -->
+    <script src="reviewapplications.js"> </script>
+</head>
+
+<body class="managerbody" ng-app="myApp" ng-controller="myController" md-theme="customTheme" ng-cloak>
+
+    <md-toolbar class="toolbar" class="md-primary">
+        <p class="toolBarText">Jobs at Public Outdoor Ice Rinks: Manage Applications</p>
+    </md-toolbar>
+
+    <div class="vacanciesbar">
+        <h2>Vacancies</h2>
+        <p ng-repeat="v in vacancies">
+            <strong>{{v.location}}</strong>
+            <br>
+            &nbsp;Desk: {{v.deskvacancies}} <br>
+            &nbsp;Ice: {{v.icevacancies}}
+        </p>
+    </div>
+
+    <div class="reviewtable_container">
+        <table class="reviewtable">
+            <thead>
+                <tr>
+                    <th>UID</th>
+                    <th>Date Applied</th>
+                    <th>Age</th>
+                    <th>Skating Skill</th>
+                    <th>Preferred Location/Job</th>
+                    <th>Status</th>
+                    <th>Review Date</th>
+                    <th>Assigned Location/Job</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>2</td>
+                    <td>2023-11-15</td>
+                    <td>17</td>
+                    <td>33</td>
+                    <td>Rockville/Ice</td>
+                    <td>Under Review</td>
+                    <td>null</td>
+                    <td>null</td>
+                    <td>MANAGE</td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>2023-11-15</td>
+                    <td>17</td>
+                    <td>33</td>
+                    <td>Rockville/Ice</td>
+                    <td>Under Review</td>
+                    <td>null</td>
+                    <td>null</td>
+                    <td>MANAGE</td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>2023-11-15</td>
+                    <td>17</td>
+                    <td>33</td>
+                    <td>Rockville/Ice</td>
+                    <td>Under Review</td>
+                    <td>null</td>
+                    <td>null</td>
+                    <td>MANAGE</td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>2023-11-15</td>
+                    <td>17</td>
+                    <td>33</td>
+                    <td>Rockville/Ice</td>
+                    <td>Under Review</td>
+                    <td>null</td>
+                    <td>null</td>
+                    <td>MANAGE</td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>2023-11-15</td>
+                    <td>17</td>
+                    <td>33</td>
+                    <td>Rockville/Ice</td>
+                    <td>Under Review</td>
+                    <td>null</td>
+                    <td>null</td>
+                    <td>MANAGE</td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>2023-11-15</td>
+                    <td>17</td>
+                    <td>33</td>
+                    <td>Rockville/Ice</td>
+                    <td>Under Review</td>
+                    <td>null</td>
+                    <td>null</td>
+                    <td>MANAGE</td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>2023-11-15</td>
+                    <td>17</td>
+                    <td>33</td>
+                    <td>Rockville/Ice</td>
+                    <td>Under Review</td>
+                    <td>null</td>
+                    <td>null</td>
+                    <td>MANAGE</td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>2023-11-15</td>
+                    <td>17</td>
+                    <td>33</td>
+                    <td>Rockville/Ice</td>
+                    <td>Under Review</td>
+                    <td>null</td>
+                    <td>null</td>
+                    <td>MANAGE</td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>2023-11-15</td>
+                    <td>17</td>
+                    <td>33</td>
+                    <td>Rockville/Ice</td>
+                    <td>Under Review</td>
+                    <td>null</td>
+                    <td>null</td>
+                    <td>MANAGE</td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>2023-11-15</td>
+                    <td>17</td>
+                    <td>33</td>
+                    <td>Rockville/Ice</td>
+                    <td>Under Review</td>
+                    <td>null</td>
+                    <td>null</td>
+                    <td>MANAGE</td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>2023-11-15</td>
+                    <td>17</td>
+                    <td>33</td>
+                    <td>Rockville/Ice</td>
+                    <td>Under Review</td>
+                    <td>null</td>
+                    <td>null</td>
+                    <td>MANAGE</td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>2023-11-15</td>
+                    <td>17</td>
+                    <td>33</td>
+                    <td>Rockville/Ice</td>
+                    <td>Under Review</td>
+                    <td>null</td>
+                    <td>null</td>
+                    <td>MANAGE</td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>2023-11-15</td>
+                    <td>17</td>
+                    <td>33</td>
+                    <td>Rockville/Ice</td>
+                    <td>Under Review</td>
+                    <td>null</td>
+                    <td>null</td>
+                    <td>MANAGE</td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>2023-11-15</td>
+                    <td>17</td>
+                    <td>33</td>
+                    <td>Rockville/Ice</td>
+                    <td>Under Review</td>
+                    <td>null</td>
+                    <td>null</td>
+                    <td>MANAGE</td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>2023-11-15</td>
+                    <td>17</td>
+                    <td>33</td>
+                    <td>Rockville/Ice</td>
+                    <td>Under Review</td>
+                    <td>null</td>
+                    <td>null</td>
+                    <td>MANAGE</td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>2023-11-15</td>
+                    <td>17</td>
+                    <td>33</td>
+                    <td>Rockville/Ice</td>
+                    <td>Under Review</td>
+                    <td>null</td>
+                    <td>null</td>
+                    <td>MANAGE</td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>2023-11-15</td>
+                    <td>17</td>
+                    <td>33</td>
+                    <td>Rockville/Ice</td>
+                    <td>Under Review</td>
+                    <td>null</td>
+                    <td>null</td>
+                    <td>MANAGE</td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>2023-11-15</td>
+                    <td>17</td>
+                    <td>33</td>
+                    <td>Rockville/Ice</td>
+                    <td>Under Review</td>
+                    <td>null</td>
+                    <td>null</td>
+                    <td>MANAGE</td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>2023-11-15</td>
+                    <td>17</td>
+                    <td>33</td>
+                    <td>Rockville/Ice</td>
+                    <td>Under Review</td>
+                    <td>null</td>
+                    <td>null</td>
+                    <td>MANAGE</td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>2023-11-15</td>
+                    <td>17</td>
+                    <td>33</td>
+                    <td>Rockville/Ice</td>
+                    <td>Under Review</td>
+                    <td>null</td>
+                    <td>null</td>
+                    <td>MANAGE</td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>2023-11-15</td>
+                    <td>17</td>
+                    <td>33</td>
+                    <td>Rockville/Ice</td>
+                    <td>Under Review</td>
+                    <td>null</td>
+                    <td>null</td>
+                    <td>MANAGE</td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>2023-11-15</td>
+                    <td>17</td>
+                    <td>33</td>
+                    <td>Rockville/Ice</td>
+                    <td>Under Review</td>
+                    <td>null</td>
+                    <td>null</td>
+                    <td>MANAGE</td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>2023-11-15</td>
+                    <td>17</td>
+                    <td>33</td>
+                    <td>Rockville/Ice</td>
+                    <td>Under Review</td>
+                    <td>null</td>
+                    <td>null</td>
+                    <td>MANAGE</td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>2023-11-15</td>
+                    <td>17</td>
+                    <td>33</td>
+                    <td>Rockville/Ice</td>
+                    <td>Under Review</td>
+                    <td>null</td>
+                    <td>null</td>
+                    <td>MANAGE</td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>2023-11-15</td>
+                    <td>17</td>
+                    <td>33</td>
+                    <td>Rockville/Ice</td>
+                    <td>Under Review</td>
+                    <td>null</td>
+                    <td>null</td>
+                    <td>MANAGE</td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>2023-11-15</td>
+                    <td>17</td>
+                    <td>33</td>
+                    <td>Rockville/Ice</td>
+                    <td>Under Review</td>
+                    <td>null</td>
+                    <td>null</td>
+                    <td>MANAGE</td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>2023-11-15</td>
+                    <td>17</td>
+                    <td>33</td>
+                    <td>Rockville/Ice</td>
+                    <td>Under Review</td>
+                    <td>null</td>
+                    <td>null</td>
+                    <td>MANAGE</td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>2023-11-15</td>
+                    <td>17</td>
+                    <td>33</td>
+                    <td>Rockville/Ice</td>
+                    <td>Under Review</td>
+                    <td>null</td>
+                    <td>null</td>
+                    <td>MANAGE</td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>2023-11-15</td>
+                    <td>17</td>
+                    <td>33</td>
+                    <td>Rockville/Ice</td>
+                    <td>Under Review</td>
+                    <td>null</td>
+                    <td>null</td>
+                    <td>MANAGE</td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>2023-11-15</td>
+                    <td>17</td>
+                    <td>33</td>
+                    <td>Rockville/Ice</td>
+                    <td>Under Review</td>
+                    <td>null</td>
+                    <td>null</td>
+                    <td>MANAGE</td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>2023-11-15</td>
+                    <td>17</td>
+                    <td>33</td>
+                    <td>Rockville/Ice</td>
+                    <td>Under Review</td>
+                    <td>null</td>
+                    <td>null</td>
+                    <td>MANAGE</td>
+                </tr>
+
+
+            </tbody>
+        </table>
+    </div>
+
+
+</body>
+</html>
