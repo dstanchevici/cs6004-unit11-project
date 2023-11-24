@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+
+    <!--To remove the favicon.ico error from console-->
+    <!--Found solution here https://stackoverflow.com/questions/30693021/chrome-developer-tools-shows-favicon-404-error-in-brackets-livepreview-->
+    <link rel="icon" href="data:;base64,iVBORwOKGO=" />
+
+    <!--Styles-->
+    <link rel="stylesheet" href="styles.css">
+
+    <!--ANGULAR + MATERIAL: directly from google-->
+    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/angular_material/1.1.12/angular-material.min.css"></link>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.6/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.6/angular-animate.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.6/angular-aria.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.6/angular-messages.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angular_material/1.1.12/angular-material.min.js"></script>
+
+    <!--  OUR SCRIPTS ----------------------------------------- -->
+    <script src="manageapplication.js"> </script>
+</head>
+
+<body class="managerbody" ng-app="myApp" ng-controller="myController" md-theme="customTheme" ng-cloak>
+
+    <md-toolbar class="toolbar" class="md-primary">
+        <p class="toolBarText">Jobs at Public Outdoor Ice Rinks: Manage Application</p>
+        <a class="toolbarlink" href="reviewapplications.html">Review Applications</a>
+
+    </md-toolbar>
+
+    <section layout="row">
+        <!--Left column: Applicant's Info-->
+        <section class="column" layout="column">
+            <h2>Applicant's Information</h2>
+            <table class="applicantinfotable">
+                <tr>
+                    <th>Name</th>
+                    <td>{{applicantInfo.firstName}} {{applicantInfo.lastName}} </td>
+                </tr>
+                <tr>
+                    <th>Email</th>
+                    <td>{{applicantInfo.email}}</td>
+                </tr>
+                <tr>
+                    <th>Application Date</th>
+                    <td>{{applicantInfo.applicationDate}}</td>
+                </tr>
+                <tr>
+                    <th>Location / Job Preferences</th>
+                    <td>{{applicantInfo.locationPreference}} / {{applicantInfo.jobPreference}}</td>
+                </tr>
+                <tr>
+                    <th>Status</th>
+                    <td>{{applicantInfo.status}}</td>
+                </tr>
+                <tr>
+                    <th>Review Date</th>
+                    <td>{{applicantInfo.reviewDate}}</td>
+                </tr>
+                <tr>
+                    <th>Location / Job Assignment</th>
+                    <td>{{applicantInfo.locationAssignment}} / {{applicantInfo.jobAssignment}}</td>
+                </tr>
+            </table>
+        </section>
+        <!--Right column: Manager's Action Form-->
+        <section class="column" layout="column">
+            <h2>Manage This Application</h2>
+            <md-content>
+                <h3>Choose Status:</h3>
+                <md-radio-group ng-model="statusIndex" class="md-primary">
+                    <md-radio-button ng-value=1>Under Review</md-radio-button>
+                    <md-radio-button ng-value=2>Approve</md-radio-button>
+                    <md-radio-button ng-value=3>Reject</md-radio-button>
+                </md-radio-group>
+                <md-button class="md-raised md-primary" ng-click="submitDecision(applicantInfo.uid);">
+                    Submit Decision
+                </md-button>
+            </md-content>
+        </section>
+    </section>
+
+</body>
+</html>

@@ -20,11 +20,16 @@ app.config(function($mdThemingProvider) {
 });
 
 app.controller("myController", function($scope) {
-    // Get vacancies from the server (from the RINK DB) and assign them to $scope.vacancies as an array of objects
+    // Get vacancies from the server (from the RINK DB) and
+    // assign them to $scope.vacancies[] as an array of objects
     getVacanciesFromServer($scope);
-
-    // Get applications[] under review from the server (from the APPLICATION DB) and assign them to $scope.applications as an array of objects
+    // Get $scope.applications[] from the server (from the APPLICATION DB) and
+    //assign them to $scope.applications[] as an array of objects
     getApplicationsFromServer($scope);
+    $scope.applicationUID = -1;
+    $scope.manageApplication = function(applicationUID) {
+        manageApplication(applicationUID);
+    }
 
 });
 
@@ -73,5 +78,17 @@ function getApplicationsFromServer($scope) {
 
     req.send(JSON.stringify(dataToServer));
     console.log ("Sent to server: json=" + JSON.stringify(dataToServer));
+}
+
+function manageApplication(applicationUID) {
+    console.log("Manage application for UID " + applicationUID);
+    sessionStorage.setItem("uid", applicationUID);
+    window.location.href = "http://localhost:40104/manageapplication.html";
+
+    /*To retrieve sessionStorage on the target page:
+        let uid = sessionStorage.getItem("uid");
+    To clear sessionStorage:
+        sessionStorage.clear();*/
+
 }
 

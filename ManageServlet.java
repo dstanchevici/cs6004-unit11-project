@@ -8,7 +8,7 @@ import com.google.gson.*;
 class DataFromManageApplications {
 
 
-
+    String uid;
     String servletAction;
 
 }
@@ -82,11 +82,15 @@ public class ManageServlet extends HttpServlet {
             Writer writer = resp.getWriter ();
 
             String action = data.servletAction;
+            String uid = data.uid;
             if (action.equals("getVacancies")) {
                 getVacancies();
             }
             else if (action.equals("getApplications")) {
                 getApplications();
+            }
+            else if (action.equals("getApplicantInfo")) {
+                getApplicantInfo(uid);
             }
 
 
@@ -165,6 +169,37 @@ public class ManageServlet extends HttpServlet {
             }
             //System.out.println(outputJson);
             outputJson += "]";
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    synchronized void getApplicantInfo(String uidString) {
+        try {
+            int uid = Integer.parseInt(uidString);
+            String sql = "SELECT * FROM APPLICATION WHERE UID="+uid;
+            ResultSet rs = statement.executeQuery(sql);
+            outputJson = "";
+            while (rs.next()) {
+                outputJson += "{\"uid\":\"" + rs.getString(1) +
+                        "\", \"firstName\":\"" + rs.getString(2) +
+                        "\", \"lastName\":\"" + rs.getString(3) +
+                        "\", \"age\":\"" + rs.getString(4) +
+                        "\", \"email\":\"" + rs.getString(5) +
+                        "\", \"locationPreference\":\"" + rs.getString(6) +
+                        "\", \"jobPreference\":\"" + rs.getString(7) +
+                        "\", \"skatingSkill\":\"" + rs.getString(8) +
+                        "\", \"applicationDate\":\"" + rs.getString(9) +
+                        "\", \"status\":\"" + rs.getString(10) +
+                        "\", \"locationAssignment\":\"" + rs.getString(11) +
+                        "\", \"jobAssignment\":\"" + rs.getString(12) +
+                        "\", \"reviewDate\":\"" + rs.getString(13) + "\"}";
+            }
+            System.out.println("DATA from getApplicantInfo");
+            System.out.println(outputJson);
+
+
         }
         catch (Exception e) {
             e.printStackTrace();

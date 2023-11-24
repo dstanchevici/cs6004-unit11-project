@@ -10,16 +10,16 @@
 }
 
 .toolbar {
-    position: fixed;
+    /*position: fixed;
     left: 0;
-    top: 0;
+    top: 0;*/
 }
 
 .toolBarText {
     padding: 15px;
 }
 
-/*------- Manager Eval ----------*/
+/*------- Review Applications ----------*/
 
 .vacanciesbar {
     position: fixed;
@@ -33,7 +33,7 @@
 .reviewtable_container {
     margin-top: 120px;
     margin-left: 10vw;
-    height: 100vh;
+    height: 70vh;
     overflow: auto;
     position: relative;
 }
@@ -57,9 +57,19 @@
     color: white;
 }
 
+/*------- Manage Applications ----------*/
 
+.toolbarlink {
+    color: white;
+    text-align: right;
+    padding-right: 15px;
+    padding-bottom: 5px;
+}
 
-
+.applicantinfotable th, td {
+    text-align: left;
+    border-bottom: 1px solid black;
+}
 
 
 
