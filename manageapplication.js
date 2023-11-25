@@ -15,14 +15,21 @@ let applicantInfoFromServer = {
     locationAssignment:null,
     jobAssignment:null,
     reviewDate:null
-}
+};
 
 // Get all vacancies with a method that has already been created in ManageServlet,
 // but use only vacanciesFromServer[i].location in this page.
 // A bit inefficient, but there is less code b/c I don't need to create a customized method
 // (such as getLocations()) in ManageServlet.
-let vacanciesFromServer = []
+let vacanciesFromServer = [];
 
+/*let decisionDataToServer = {
+    uid: null,
+    newStatus: null,
+    newLocation: null,
+    newJob: null,
+    servletAction: null
+}*/
 
 const app = angular.module("myApp", ['ngMaterial', 'ngMessages']);
 
@@ -34,18 +41,21 @@ app.config(function($mdThemingProvider) {
 });
 
 app.controller("myController", function($scope) {
+    $scope.statusIndex = -1;
+    $scope.locationIndex = -1;
+    $scope.jobIndex = -1;
+    $scope.decisionErrorMessage = "";
+
     $scope.applicantInfo = {};
     getAndDisplayApplicantInfo($scope);
 
     $scope.locations = []; // Array of objects (location, index)
     getAndDisplayLocations($scope);
 
-    $scope.statusIndex = -1;
-    $scope.locationIndex = -1;
-    $scope.jobIndex = -1;
-    $scope.deleteApplication = false;
     $scope.submitDecision = function () {
-        printInfo($scope);
+        if (checkInput($scope)) {
+            sendDataToServer($scope);
+        }
     };
 });
 
@@ -70,6 +80,18 @@ function getAndDisplayApplicantInfo($scope) {
         const dataAsJsonObj = JSON.parse(req.response);
         applicantInfoFromServer = dataAsJsonObj;
         $scope.applicantInfo = applicantInfoFromServer;
+
+        if (applicantInfoFromServer.status === "under_review") {
+            $scope.statusIndex = 1;
+        }
+        else if (applicantInfoFromServer.status === "approved") {
+            $scope.statusIndex = 2;
+        }
+        else if (applicantInfoFromServer.status === "rejected") {
+            $scope.statusIndex = 3;
+        }
+
+
     }
 
 }
@@ -102,14 +124,75 @@ function getAndDisplayLocations($scope) {
 
 }
 
-function printInfo ($scope) {
+function checkInput($scope) {
+    // If status choice is Approve
+    if ($scope.statusIndex === 2 && $scope.locationIndex > 0 && $scope.jobIndex > 0) {
+        $scope.decisionErrorMessage = "";
+        return true;
+    }
+    else if ( $scope.statusIndex === 2 && ( $scope.locationIndex < 1 || $scope.jobIndex < 1 ) ) {
+        $scope.decisionErrorMessage = "If you choose Approve, you must assign location and job type.";
+        return false;
+    }
+    // If status choice is Under Review or Reject
+    else if ( ( $scope.statusIndex === 1 || $scope.statusIndex === 3 ) && ( $scope.locationIndex > 0 || $scope.jobIndex >0 ) ) {
+        $scope.decisionErrorMessage = "If you choose Under Review or Reject, do not assign location or job type.";
+        $scope.locationIndex = -1;
+        $scope.jobIndex = -1;
+        return false;
+    }
+    else {
+        return true;
+    }
+}
+
+function sendDataToServer ($scope) {
+    console.log ("in printInfo $scope.locations[0].location = " + $scope.locations[0].index);
     console.log ("In printInfo(): applicantInfoFromServer " + applicantInfoFromServer.firstName);
     console.log ("In printInfo(): $scope.applicantInfo.status " + $scope.applicantInfo.status);
     console.log("UID " + $scope.applicantInfo.uid + " has statusIndex " + $scope.statusIndex);
     console.log("UID " + $scope.applicantInfo.uid + " has locationIndex " + $scope.locationIndex);
     console.log("UID " + $scope.applicantInfo.uid + " has jobIndex " + $scope.jobIndex);
-    console.log("UID " + $scope.applicantInfo.uid + " applic. marked for deletion " + $scope.deleteApplication);
+
+    let statusToSend = "";
+    if ($scope.statusIndex === 1) {
+        statusToSend = "under_review";
+    }
+    if ($scope.statusIndex === 2) {
+        statusToSend = "approved";
+    }
+    if ($scope.statusIndex === 3) {
+            statusToSend = "rejected";
+    }
+
+    let locationToSend = null;
+    for (let i=0; i<$scope.locations.length; i++) {
+        if ($scope.locationIndex === $scope.locations[i].index) {
+            locationToSend = $scope.locations[i].location;
+        }
+    }
+
+    let jobToSend = null;
+    if ($scope.jobIndex === 1) {
+        jobToSend = "desk";
+    }
+    if ($scope.jobIndex === 2) {
+        jobToSend = "ice";
+    }
+
+    let decisionDataToServer = {
+        uid: $scope.applicantInfo.uid,
+        status: statusToSend,
+        location: locationToSend,
+        job: jobToSend,
+        servletAction: "updateApplication"
+    };
+
+    console.log(decisionDataToServer);
+
 
 }
+
+
 
 
