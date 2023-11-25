@@ -154,41 +154,57 @@ function sendDataToServer ($scope) {
     console.log("UID " + $scope.applicantInfo.uid + " has locationIndex " + $scope.locationIndex);
     console.log("UID " + $scope.applicantInfo.uid + " has jobIndex " + $scope.jobIndex);
 
-    let statusToSend = "";
+    let assignedStatus = "";
     if ($scope.statusIndex === 1) {
         statusToSend = "under_review";
     }
     if ($scope.statusIndex === 2) {
-        statusToSend = "approved";
+        assignedStatus = "approved";
     }
     if ($scope.statusIndex === 3) {
-            statusToSend = "rejected";
+        assignedStatus = "rejected";
     }
 
-    let locationToSend = null;
+    let assignedLocation = null;
     for (let i=0; i<$scope.locations.length; i++) {
         if ($scope.locationIndex === $scope.locations[i].index) {
-            locationToSend = $scope.locations[i].location;
+            assignedLocation = $scope.locations[i].location;
         }
     }
 
-    let jobToSend = null;
+    let assignedJob = null;
     if ($scope.jobIndex === 1) {
-        jobToSend = "desk";
+        assignedJob = "desk";
     }
     if ($scope.jobIndex === 2) {
-        jobToSend = "ice";
+        assignedJob = "ice";
     }
 
     let decisionDataToServer = {
         uid: $scope.applicantInfo.uid,
-        status: statusToSend,
-        location: locationToSend,
-        job: jobToSend,
+
+        currentStatus: $scope.applicantInfo.status,
+        newStatus: assignedStatus,
+
+        currentLocation: $scope.applicantInfo.locationAssignment,
+        newLocation: assignedLocation,
+
+        currentJob: $scope.applicantInfo.jobAssignment,
+        newJob: assignedJob,
+
         servletAction: "updateApplication"
     };
 
     console.log(decisionDataToServer);
+
+    console.log ("Entered decisionDataToServer");
+    console.log ("decisionDataToServer.servletAction: " + decisionDataToServer.servletAction);
+    console.log ("To be sent to server: json=" + JSON.stringify(decisionDataToServer));
+    let req = new XMLHttpRequest();
+    req.open("POST", url);
+    req.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+    req.send(JSON.stringify(decisionDataToServer));
+    console.log ("Sent to server: json=" + JSON.stringify(decisionDataToServer));
 
 
 }

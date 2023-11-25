@@ -9,6 +9,12 @@ class DataFromManageApplications {
 
 
     String uid;
+    String currentStatus;
+    String newStatus;
+    String currentLocation;
+    String newLocation;
+    String currentJob;
+    String newJob;
     String servletAction;
 
 }
@@ -92,6 +98,9 @@ public class ManageServlet extends HttpServlet {
             else if (action.equals("getApplicantInfo")) {
                 getApplicantInfo(uid);
             }
+            else if (action.equals("updateApplication")) {
+                updateApplication(data);
+            }
 
 
             // Write it out and, most importantly, flush():
@@ -99,7 +108,7 @@ public class ManageServlet extends HttpServlet {
             writer.flush();
 
             // Debugging:
-            System.out.println ("outputJson in Servlet: " + outputJson);
+            //System.out.println ("outputJson in Servlet: " + outputJson);
         }
         catch (Exception e) {
             e.printStackTrace();
@@ -204,5 +213,20 @@ public class ManageServlet extends HttpServlet {
         catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    synchronized void updateApplication(DataFromManageApplications data) {
+        try {
+            String sql = "";
+            // Return vacancy
+            if ( data.currentJob.equals("desk") ) {
+                sql = "UPDATE RINK SET DESK_VACANCIES = DESK_VACANCIES + 1 WHERE LOCATION ='" + data.currentLocation + "'";
+                statement.executeUpdate(sql);
+            }
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+
     }
 }

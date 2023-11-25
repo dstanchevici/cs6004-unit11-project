@@ -38,8 +38,8 @@ public class MakeRinkJobsDB {
             //String sql = "DELETE FROM USER WHERE LOGIN='test'";
             //statement.executeUpdate (sql);
             //The user table:
-            makeUserTable ();
-            printTable ("USER", 4);
+            //makeUserTable ();
+            //printTable ("USER", 4);
 
 
             //The rink table:
@@ -47,8 +47,8 @@ public class MakeRinkJobsDB {
             printTable ("RINK", 3);
 
             // The current book table:
-            makeApplicationTable ();
-            printTable ("APPLICATION", 13);
+            //makeApplicationTable ();
+            //printTable ("APPLICATION", 13);
 
 
 
@@ -114,7 +114,7 @@ public class MakeRinkJobsDB {
     {
         String sql = "DROP TABLE IF EXISTS RINK";
         statement.executeUpdate (sql);
-        sql = "CREATE TABLE RINK (LOCATION VARCHAR(25) PRIMARY KEY, DESK_VACANCIES INT, ICE_VACANCIES INT)";
+        sql = "CREATE TABLE RINK (LOCATION VARCHAR(25), DESK_VACANCIES INT, ICE_VACANCIES INT)";
         statement.executeUpdate (sql);
 
         sql = "INSERT INTO RINK VALUES ('Bethesda', 5, 5)";
