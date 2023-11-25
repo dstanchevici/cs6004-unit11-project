@@ -75,7 +75,24 @@
                     <md-radio-button ng-value=2>Approve</md-radio-button>
                     <md-radio-button ng-value=3>Reject</md-radio-button>
                 </md-radio-group>
-                <md-button class="md-raised md-primary" ng-click="submitDecision(applicantInfo.uid);">
+
+                <h3>Assign Location and Job Type:</h3>
+                <div layout="row">
+                    <md-radio-group ng-model="locationIndex" class="md-primary" flex="50">
+                        <md-radio-button ng-repeat="l in locations" ng-value="l.index">{{l.location}}</md-radio-button>
+                    </md-radio-group>
+
+                    <md-radio-group ng-model="jobIndex" class="md-primary">
+                        <md-radio-button ng-value=1>Desk</md-radio-button>
+                        <md-radio-button ng-value=2>Ice</md-radio-button>
+                    </md-radio-group>
+                </div>
+
+                <h3>Delete the Application From the Database?</h3>
+                <md-switch ng-model="deleteApplication" class="md-primary"></md-switch>
+
+
+                <md-button class="md-raised md-primary" ng-click="submitDecision();">
                     Submit Decision
                 </md-button>
             </md-content>
