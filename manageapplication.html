@@ -91,11 +91,18 @@
 
                 <h3>If Approved, Assign Location and Job Type:</h3>
                 <div layout="row">
-                    <md-radio-group ng-model="locationIndex" class="md-primary" flex="50">
+                    <!--<md-radio-group ng-model="locationIndex" class="md-primary" flex="50">
                         <md-radio-button ng-repeat="l in locations" ng-value="l.index">{{l.location}}</md-radio-button>
-                    </md-radio-group>
+                    </md-radio-group>-->
 
-                    <md-radio-group ng-model="jobIndex" class="md-primary">
+                    <md-input-container style="margin-top:0">
+                        Preferred location
+                        <md-select ng-model="locationIndex" aria-label="preferred location" flex="100">
+                            <md-option ng-repeat="l in locations" ng-value="l.index">{{l.location}}</md-option>
+                        </md-select>
+                    </md-input-container>
+
+                    <md-radio-group ng-model="jobIndex" class="md-primary" style="margin-left: 60px">
                         <md-radio-button ng-value=1>Desk</md-radio-button>
                         <md-radio-button ng-value=2>Ice</md-radio-button>
                     </md-radio-group>

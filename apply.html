@@ -30,34 +30,66 @@
     <a class="toolbarlink" href="loginRegister.html">Log out</a>
   </md-toolbar>
 
-  <p>User ID: {{uid}}</p>
-  <h2>Complete Your Application Form:</h2>
-  <form name="vacationform" id="vacationform" onsubmit="return false">
+  <p style="margin-left: 15px">User ID: {{uid}}</p>
+  <h2 style="margin-left: 15px">Complete Your Application Form:</h2>
+  <form name="applicationform" id="applicationform" onsubmit="return false" style="margin-left: 15px">
     <section layout="row">
       <md-input-container >
         <label>First name</label>
-        <input ng-model="user.firstName" required>
+        <input ng-model="firstName" required>
       </md-input-container>
       <md-input-container >
         <label>Last name</label>
-        <input ng-model="user.lastName" required>
+        <input ng-model="lastName" required>
       </md-input-container>
     </section>
 
     <section layout="row">
       <md-input-container>
        <label>Email</label>
-        <input ng-model="user.email" type="email" required>
+        <input ng-model="email" type="email" required>
+      </md-input-container>
+      <md-input-container>
+        <label>Age (min. 15)</label>
+        <input ng-model="age" mdInput type="number" id="myNumber" min="15" max="100" aria-label="Age" required/>
       </md-input-container>
     </section>
 
     <section layout="row">
-      <label>Age (min. 15)</label>
       <md-input-container>
-        <input ng-model="user.age" mdInput type="number" id="myNumber" min="15" max="100" aria-label="Age" required/>
+        Preferred location
+        <md-select ng-model="locationPreference" aria-label="preferred location" required>
+          <md-option ng-repeat="l in locations" ng-value="l">{{l}}</md-option>
+        </md-select>
+      </md-input-container>
+      <md-input-container style="margin-left:60px">
+        <p style="margin-top:0">Preferred type of job</p>
+        <md-radio-group ng-model="jobPreferenceIndex" class="md-primary">
+          <md-radio-button ng-value=1>Desk</md-radio-button>
+          <md-radio-button ng-value=2>Ice</md-radio-button>
+        </md-radio-group>
       </md-input-container>
     </section>
 
+    <section layout="row">
+      <md-input-container>
+        Evaluate your ice skating skill on a scale from 1 to 100.
+        <md-slider md-discrete ng-model="skatingSkill" step="5"
+                   min="0" max="100" aria-label="slider">
+        </md-slider>
+      </md-input-container>
+    </section>
+    <div>
+      <md-button class="md-raised md-primary" ng-click="submit();">
+        Submit
+      </md-button>
+    </div>
+
+  </form>
+
+  <md-content class="errorMessage">
+    {{errorMessage}}
+  </md-content>
   </form>
 
 </body>
