@@ -47,7 +47,7 @@
     <section layout="row">
       <md-input-container>
        <label>Email</label>
-        <input ng-model="email" type="email" required>
+        <input placeholder="jones@mail.com" ng-model="email" type="email" required>
       </md-input-container>
       <md-input-container>
         <label>Age (min. 15)</label>
@@ -84,13 +84,9 @@
         Submit
       </md-button>
     </div>
-
+    <md-content class="errorMessage">
+      {{errorMessage}}
+    </md-content>
   </form>
-
-  <md-content class="errorMessage">
-    {{errorMessage}}
-  </md-content>
-  </form>
-
 </body>
 </html>

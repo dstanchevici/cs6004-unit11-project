@@ -23,7 +23,10 @@ app.controller("myController", function($scope) {
     getLocationsFromServer($scope);
 
     $scope.submit = function() {
-        checkData ($scope);
+        if ( inputValid ($scope) ) {
+            console.log ("inputValid ($scope) = " + inputValid ($scope));
+            sendApplicationToServer($scope);
+        }
     };
 });
 
@@ -54,13 +57,37 @@ function getLocationsFromServer($scope) {
 
 }
 
-function checkData($scope) {
-    console.log ("Input:");
-    console.log($scope.firstName);
-    console.log($scope.lastName);
-    console.log($scope.email);
-    console.log($scope.age);
-    console.log($scope.locationPreference);
-    console.log($scope.jobPreferenceIndex);
-    console.log($scope.skatingSkill);
+function inputValid($scope) {
+    if ($scope.applicationform.$valid) {
+        $scope.errorMessage = "Form is valid";
+        return true;
+    }
+    else {
+        $scope.errorMessage = "Ensure that all fields have been completed in correct format.";
+        return false;
+    }
+}
+
+function sendApplicationToServer($scope) {
+    let jobPreferenceAsString = null;
+        if ($scope.jobPreferenceIndex === 1) {
+            jobPreferenceAsString = "desk";
+        }
+        if ($scope.jobPreferenceIndex === 2) {
+            jobPreferenceAsString = "ice";
+        }
+
+    let applicationToServer = {
+        uid: $scope.uid,
+        firstName: $scope.firstName,
+        lastName: $scope.lastName,
+        email: $scope.email,
+        age: $scope.age,
+        locationPreference: $scope.locationPreference,
+        jobPreference: jobPreferenceAsString,
+        skatingSkill: $scope.skatingSkill,
+        status: "under_review",
+        servletAction: "insertApplication"
+    };
+    console.log ("To be sent to server: json=" + JSON.stringify(applicationToServer));
 }
