@@ -43,7 +43,7 @@ public class MakeRinkJobsDB {
 
 
             //The rink table:
-            makeRinkTable ();
+            //makeRinkTable ();
             printTable ("RINK", 3);
 
             // The current book table:
@@ -60,7 +60,7 @@ public class MakeRinkJobsDB {
         }
     }
 
-    static void printTable (String tableName, int numColumns)
+    public static void printTable (String tableName, int numColumns)
             throws SQLException
     {
         // Build the SELECT query string:

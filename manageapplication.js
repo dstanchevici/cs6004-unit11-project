@@ -186,10 +186,10 @@ function sendDataToServer ($scope) {
         currentStatus: $scope.applicantInfo.status,
         newStatus: assignedStatus,
 
-        currentLocation: $scope.applicantInfo.locationAssignment,
+        currentAssignedLocation: $scope.applicantInfo.locationAssignment,
         newLocation: assignedLocation,
 
-        currentJob: $scope.applicantInfo.jobAssignment,
+        currentAssignedJob: $scope.applicantInfo.jobAssignment,
         newJob: assignedJob,
 
         servletAction: "updateApplication"

@@ -11,9 +11,9 @@ class DataFromManageApplications {
     String uid;
     String currentStatus;
     String newStatus;
-    String currentLocation;
+    String currentAssignedLocation;
     String newLocation;
-    String currentJob;
+    String currentAssignedJob;
     String newJob;
     String servletAction;
 
@@ -142,7 +142,7 @@ public class ManageServlet extends HttpServlet {
             //System.out.println(outputJson);
             outputJson += "]";
 
-            System.out.println("outputJson: "+ outputJson);
+            //System.out.println("outputJson: "+ outputJson);
         }
         catch (Exception e) {
             e.printStackTrace();
@@ -168,7 +168,7 @@ public class ManageServlet extends HttpServlet {
                         "\", \"locationAssignment\":\"" + rs.getString(11) +
                         "\", \"jobAssignment\":\"" + rs.getString(12) +
                         "\", \"reviewDate\":\"" + rs.getString(13) + "\"},";
-                System.out.println(outputJson);
+                //System.out.println(outputJson);
             }
             //System.out.println(outputJson);
 
@@ -205,8 +205,8 @@ public class ManageServlet extends HttpServlet {
                         "\", \"jobAssignment\":\"" + rs.getString(12) +
                         "\", \"reviewDate\":\"" + rs.getString(13) + "\"}";
             }
-            System.out.println("DATA from getApplicantInfo");
-            System.out.println(outputJson);
+            //System.out.println("DATA from getApplicantInfo");
+            //System.out.println(outputJson);
 
 
         }
@@ -218,15 +218,56 @@ public class ManageServlet extends HttpServlet {
     synchronized void updateApplication(DataFromManageApplications data) {
         try {
             String sql = "";
-            // Return vacancy
-            if ( data.currentJob.equals("desk") ) {
-                sql = "UPDATE RINK SET DESK_VACANCIES = DESK_VACANCIES + 1 WHERE LOCATION ='" + data.currentLocation + "'";
+            // Return current vacancy to RINK
+            if ( data.currentAssignedJob.equals("desk") ) {
+                sql = "UPDATE RINK SET DESK_VACANCIES = DESK_VACANCIES + 1 WHERE LOCATION ='" + data.currentAssignedLocation + "'";
                 statement.executeUpdate(sql);
             }
+            else if ( data.currentAssignedJob.equals("ice") ) {
+                sql = "UPDATE RINK SET ICE_VACANCIES = ICE_VACANCIES + 1 WHERE LOCATION ='" + data.currentAssignedLocation + "'";
+                statement.executeUpdate(sql);
+            }
+            // Deduct new vacancy from RINK
+            if ( data.newJob.equals("desk") ) {
+                sql = "UPDATE RINK SET DESK_VACANCIES = DESK_VACANCIES - 1 WHERE LOCATION ='" + data.newLocation + "'";
+                statement.executeUpdate(sql);
+            }
+            else if ( data.newJob.equals("ice") ) {
+                sql = "UPDATE RINK SET ICE_VACANCIES = ICE_VACANCIES - 1 WHERE LOCATION ='" + data.newLocation + "'";
+                statement.executeUpdate(sql);
+            }
+
+            printTable("RINK", 3);
+
         }
         catch (Exception e) {
             e.printStackTrace();
         }
 
+
+
+    }
+
+    static void printTable (String tableName, int numColumns)
+            throws SQLException
+    {
+        // Build the SELECT query string:
+        String sql = "SELECT * FROM " + tableName;
+
+        // Execute at the database, which returns rows that are
+        // placed into the ResultSet object.
+        ResultSet rs = statement.executeQuery (sql);
+
+        // Now extract the results from ResultSet
+        System.out.println ("\nRows from " + tableName + ":");
+        while (rs.next()) {
+            String row = "Row: ";
+            for (int i=1; i<=numColumns; i++) {
+                String s = rs.getString (i);
+                // One could get an int column into an int variable.
+                row += " " + s;
+            }
+            System.out.println (row);
+        }
     }
 }
