@@ -43,12 +43,12 @@ public class MakeRinkJobsDB {
 
 
             //The rink table:
-            //makeRinkTable ();
+            makeRinkTable ();
             printTable ("RINK", 3);
 
-            // The current book table:
-            //makeApplicationTable ();
-            //printTable ("APPLICATION", 13);
+            // The application table:
+            makeApplicationTable ();
+            printTable ("APPLICATION", 13);
 
 
 

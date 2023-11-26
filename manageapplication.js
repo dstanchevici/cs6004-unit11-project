@@ -156,7 +156,7 @@ function sendDataToServer ($scope) {
 
     let assignedStatus = "";
     if ($scope.statusIndex === 1) {
-        statusToSend = "under_review";
+        assignedStatus = "under_review";
     }
     if ($scope.statusIndex === 2) {
         assignedStatus = "approved";
@@ -192,7 +192,7 @@ function sendDataToServer ($scope) {
         currentAssignedJob: $scope.applicantInfo.jobAssignment,
         newJob: assignedJob,
 
-        servletAction: "updateApplication"
+        servletAction: "updateVacanciesAndApplication"
     };
 
     console.log(decisionDataToServer);

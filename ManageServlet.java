@@ -98,8 +98,8 @@ public class ManageServlet extends HttpServlet {
             else if (action.equals("getApplicantInfo")) {
                 getApplicantInfo(uid);
             }
-            else if (action.equals("updateApplication")) {
-                updateApplication(data);
+            else if (action.equals("updateVacanciesAndApplication")) {
+                updateVacanciesAndApplication(data);
             }
 
 
@@ -215,7 +215,7 @@ public class ManageServlet extends HttpServlet {
         }
     }
 
-    synchronized void updateApplication(DataFromManageApplications data) {
+    synchronized void updateVacanciesAndApplication(DataFromManageApplications data) {
         try {
             String sql = "";
             // Return current vacancy to RINK
@@ -228,16 +228,27 @@ public class ManageServlet extends HttpServlet {
                 statement.executeUpdate(sql);
             }
             // Deduct new vacancy from RINK
-            if ( data.newJob.equals("desk") ) {
-                sql = "UPDATE RINK SET DESK_VACANCIES = DESK_VACANCIES - 1 WHERE LOCATION ='" + data.newLocation + "'";
-                statement.executeUpdate(sql);
+            if (data.newJob != null) {
+                if (data.newJob.equals("desk")) {
+                    sql = "UPDATE RINK SET DESK_VACANCIES = DESK_VACANCIES - 1 WHERE LOCATION ='" + data.newLocation + "'";
+                    statement.executeUpdate(sql);
+                } else if (data.newJob.equals("ice")) {
+                    sql = "UPDATE RINK SET ICE_VACANCIES = ICE_VACANCIES - 1 WHERE LOCATION ='" + data.newLocation + "'";
+                    statement.executeUpdate(sql);
+                }
             }
-            else if ( data.newJob.equals("ice") ) {
-                sql = "UPDATE RINK SET ICE_VACANCIES = ICE_VACANCIES - 1 WHERE LOCATION ='" + data.newLocation + "'";
-                statement.executeUpdate(sql);
-            }
-
             printTable("RINK", 3);
+
+            String currentDate = String.valueOf(java.time.LocalDate.now());
+            // Update Application
+            sql = "UPDATE APPLICATION " +
+                    "SET STATUS = '" + data.newStatus + "', " +
+                    "LOCATIONASSIGNMENT = '" + data.newLocation + "', " +
+                    "JOBASSIGNMENT = '" + data.newJob + "', " +
+                    "REVIEWDATE = '" + currentDate + "' " +
+                    "WHERE UID ='" + data.uid + "'";
+            statement.executeUpdate(sql);
+            printTable("APPLICATION", 13);
 
         }
         catch (Exception e) {
