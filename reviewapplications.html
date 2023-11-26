@@ -2,6 +2,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
+    <title>Review Applications</title>
 
     <!--To remove the favicon.ico error from console-->
     <!--Found solution here https://stackoverflow.com/questions/30693021/chrome-developer-tools-shows-favicon-404-error-in-brackets-livepreview-->
@@ -26,6 +27,7 @@
 
     <md-toolbar class="toolbar" class="md-primary">
         <p class="toolBarText">Jobs at Public Outdoor Ice Rinks: Review Applications</p>
+        <a class="toolbarlink" href="loginRegister.html">Log out</a>
     </md-toolbar>
 
     <div class="vacanciesbar">
@@ -43,6 +45,7 @@
             <thead>
                 <tr>
                     <th>UID</th>
+                    <th>Name</th>
                     <th>Date Applied</th>
                     <th>Age</th>
                     <th>Skating Skill</th>
@@ -56,6 +59,7 @@
             <tbody>
                 <tr ng-repeat="a in applications">
                     <td>{{a.uid}}</td>
+                    <td>{{a.firstName}} {{a.lastName}}</td>
                     <td>{{a.applicationDate}}</td>
                     <td>{{a.age}}</td>
                     <td>{{a.skatingSkill}}</td>

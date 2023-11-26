@@ -38,8 +38,8 @@ public class MakeRinkJobsDB {
             //String sql = "DELETE FROM USER WHERE LOGIN='test'";
             //statement.executeUpdate (sql);
             //The user table:
-            //makeUserTable ();
-            //printTable ("USER", 4);
+            makeUserTable ();
+            printTable ("USER", 4);
 
 
             //The rink table:

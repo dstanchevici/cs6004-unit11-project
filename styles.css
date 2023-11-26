@@ -25,7 +25,7 @@
     position: fixed;
     left: 0;
     top:0;
-    margin-top: 120px;
+    margin-top: 150px;
     width: 10vw;
     background-color: lightgrey;
 }
@@ -41,7 +41,8 @@
 
 .reviewtable_container table {
     border-collapse: collapse;
-    width: 100%;
+    margin-left:15px;
+    width: 97%;
 }
 
 .reviewtable_container th, td {

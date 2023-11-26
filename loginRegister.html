@@ -2,6 +2,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
+    <title>Login / Register</title>
 
     <!--To remove the favicon.ico error from console-->
     <!--Found solution here https://stackoverflow.com/questions/30693021/chrome-developer-tools-shows-favicon-404-error-in-brackets-livepreview-->
@@ -99,10 +100,10 @@
                 </div>
 
                 <md-content class="errorMessage">
-                    {{registerErrorMessage}}
+                    {{registerMessage}}
                 </md-content>
-                <p class="errorMessage" id="failedregister">
-                </p>
+                <p class="errorMessage" id="registerfailed"></p>
+                <p id="registersuccess" style="color:green;"></p>
 
             </section>
         </form>

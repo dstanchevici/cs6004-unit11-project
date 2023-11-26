@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Application Status</title>
+
+  <!--To remove the favicon.ico error from console-->
+  <!--Found solution here https://stackoverflow.com/questions/30693021/chrome-developer-tools-shows-favicon-404-error-in-brackets-livepreview-->
+  <link rel="icon" href="data:;base64,iVBORwOKGO=" />
+
+  <!--Styles-->
+  <link rel="stylesheet" href="styles.css">
+
+  <!--  ANGULAR + MATERIAL: directly from google --------------------- -->
+  <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/angular_material/1.1.12/angular-material.min.css"></link>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.6/angular.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.6/angular-animate.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.6/angular-aria.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.6/angular-messages.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angular_material/1.1.12/angular-material.min.js"></script>
+
+  <!--  OUR SCRIPTS ----------------------------------------- -->
+  <script src="checkstatus.js"> </script>
+</head>
+
+<body class="body" ng-app="myApp" ng-controller="myController" ng-cloak>
+
+  <md-toolbar class="md-primary">
+    <p class="toolBarText">Jobs at Public Outdoor Ice Rinks: Check Status of Application</p>
+    <a class="toolbarlink" href="loginRegister.html">Log out</a>
+  </md-toolbar>
+
+  <h2 style="margin-left:15px;">Hello, {{applicantInfo.firstName}}. Here is your application status.</h2>
+  <table class="applicantinfotable" style="margin-left:15px;">
+    <tr>
+      <th>Name</th>
+      <td>{{applicantInfo.firstName}} {{applicantInfo.lastName}} </td>
+    </tr>
+    <tr>
+      <th>Email</th>
+      <td>{{applicantInfo.email}}</td>
+    </tr>
+    <tr>
+      <th>Application Date</th>
+      <td>{{applicantInfo.applicationDate}}</td>
+    </tr>
+    <tr>
+      <th>Location / Job Preferences</th>
+      <td>{{applicantInfo.locationPreference}} / {{applicantInfo.jobPreference}}</td>
+    </tr>
+    <tr>
+      <th>Status</th>
+      <td>{{applicantInfo.status}}</td>
+    </tr>
+    <tr>
+      <th>Review Date</th>
+      <td>{{applicantInfo.reviewDate}}</td>
+    </tr>
+    <tr>
+      <th>Location / Job Assignment</th>
+      <td>{{applicantInfo.locationAssignment}} / {{applicantInfo.jobAssignment}}</td>
+    </tr>
+  </table>
+
+</body>
+</html>

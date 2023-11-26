@@ -18,9 +18,6 @@ let applicantInfoFromServer = {
 };
 
 // Get all vacancies with a method that has already been created in ManageServlet,
-// but use only vacanciesFromServer[i].location in this page.
-// A bit inefficient, but there is less code b/c I don't need to create a customized method
-// (such as getLocations()) in ManageServlet.
 let vacanciesFromServer = [];
 
 /*let decisionDataToServer = {
@@ -54,7 +51,7 @@ app.controller("myController", function($scope) {
 
     $scope.submitDecision = function () {
         if (checkInput($scope)) {
-            sendDataToServer($scope);
+            sendDataToServerAndReturnToReview($scope);
         }
     };
 });
@@ -76,7 +73,7 @@ function getAndDisplayApplicantInfo($scope) {
     console.log ("Sent to server: json=" + JSON.stringify(dataToServer));
 
     req.onload = () => {
-        console.log ("req.response: " + req.response);
+        //console.log ("req.response: " + req.response);
         const dataAsJsonObj = JSON.parse(req.response);
         applicantInfoFromServer = dataAsJsonObj;
         $scope.applicantInfo = applicantInfoFromServer;
@@ -112,12 +109,17 @@ function getAndDisplayLocations($scope) {
     console.log ("Sent to server: json=" + JSON.stringify(dataToServer));
 
     req.onload = () => {
-        console.log ("req.response: " + req.response);
+        //console.log ("req.response: " + req.response);
         const dataAsJsonObj = JSON.parse(req.response);
         vacanciesFromServer = dataAsJsonObj;
-        //$scope.locations = []; // Array of objects (location, index)
+        //$scope.locations = []; // Array of objects (location, deskvacancies, icevacancies, index)
         for (let i=0; i<vacanciesFromServer.length; i++) {
-            let locationObject = {location:vacanciesFromServer[i].location, index:i+1};
+            let locationObject = {
+                location:vacanciesFromServer[i].location,
+                deskvacancies:vacanciesFromServer[i].deskvacancies,
+                icevacancies:vacanciesFromServer[i].icevacancies,
+                index:i+1
+            };
             $scope.locations.push(locationObject);
         }
     }
@@ -146,13 +148,13 @@ function checkInput($scope) {
     }
 }
 
-function sendDataToServer ($scope) {
-    console.log ("in printInfo $scope.locations[0].location = " + $scope.locations[0].index);
+function sendDataToServerAndReturnToReview ($scope) {
+    /*console.log ("in printInfo $scope.locations[0].location = " + $scope.locations[0].index);
     console.log ("In printInfo(): applicantInfoFromServer " + applicantInfoFromServer.firstName);
     console.log ("In printInfo(): $scope.applicantInfo.status " + $scope.applicantInfo.status);
     console.log("UID " + $scope.applicantInfo.uid + " has statusIndex " + $scope.statusIndex);
     console.log("UID " + $scope.applicantInfo.uid + " has locationIndex " + $scope.locationIndex);
-    console.log("UID " + $scope.applicantInfo.uid + " has jobIndex " + $scope.jobIndex);
+    console.log("UID " + $scope.applicantInfo.uid + " has jobIndex " + $scope.jobIndex);*/
 
     let assignedStatus = "";
     if ($scope.statusIndex === 1) {
@@ -206,6 +208,10 @@ function sendDataToServer ($scope) {
     req.send(JSON.stringify(decisionDataToServer));
     console.log ("Sent to server: json=" + JSON.stringify(decisionDataToServer));
 
+    req.onload = () => {
+        console.log ("Returned after sending updated application to server");
+        window.location.href = "http://localhost:40104/reviewapplications.html";
+    }
 
 }
 

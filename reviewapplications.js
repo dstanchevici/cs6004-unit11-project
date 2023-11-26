@@ -46,7 +46,7 @@ function getVacanciesFromServer($scope) {
     reqVacancies.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 
     reqVacancies.onload = () => {
-        console.log ("reqVacancies.response: " + reqVacancies.response);
+        //console.log ("reqVacancies.response: " + reqVacancies.response);
         const dataAsJsonObj = JSON.parse(reqVacancies.response);
         jsonDataFromServer.vacancies = dataAsJsonObj;
         $scope.vacancies = jsonDataFromServer.vacancies;
@@ -69,7 +69,7 @@ function getApplicationsFromServer($scope) {
     req.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 
     req.onload = () => {
-        console.log ("req.response: " + req.response);
+        //console.log ("req.response: " + req.response);
         const dataAsJsonObj = JSON.parse(req.response);
         jsonDataFromServer.applications = dataAsJsonObj;
         $scope.applications = jsonDataFromServer.applications;

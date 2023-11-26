@@ -2,6 +2,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
+    <title>Manage Application</title>
 
     <!--To remove the favicon.ico error from console-->
     <!--Found solution here https://stackoverflow.com/questions/30693021/chrome-developer-tools-shows-favicon-404-error-in-brackets-livepreview-->
@@ -30,9 +31,21 @@
 
     </md-toolbar>
 
+    <!--This vacancies bar was added later in the project, so it is tied to $locations that had been created before-->
     <section layout="row">
+        <section class="column" layout="column" flex="10">
+            <div class="vacanciesbar" style="margin-top:160px">
+                <h2>Vacancies</h2>
+                <p ng-repeat="l in locations">
+                    <strong>{{l.location}}</strong>
+                    <br>
+                    &nbsp;Desk: {{l.deskvacancies}} <br>
+                    &nbsp;Ice: {{l.icevacancies}}
+                </p>
+            </div>
+        </section>
         <!--Left column: Applicant's Info-->
-        <section class="column" layout="column">
+        <section class="column" layout="column" flex="40">
             <h2>Applicant's Information</h2>
             <table class="applicantinfotable">
                 <tr>
@@ -66,7 +79,7 @@
             </table>
         </section>
         <!--Right column: Manager's Action Form-->
-        <section class="column" layout="column">
+        <section class="column" layout="column" flex="40">
             <h2>Manage This Application</h2>
             <md-content>
                 <h3>Choose Status:</h3>

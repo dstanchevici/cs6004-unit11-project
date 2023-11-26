@@ -41,7 +41,7 @@ app.controller("myController", function($scope) {
 	    confirmPassword: ""
     };
     $scope.loginErrorMessage = "";
-    $scope.registerErrorMessage = "";
+    $scope.registerMessage = "";
 
     $scope.login = function() {
 	    if (checkLoginInput($scope)) {
@@ -106,22 +106,22 @@ function extractLoginData ($scope) {
 //-----------------------------
 function checkRegisterInput($scope) {
     if ($scope.registerform.$valid) {
-        $scope.registerErrorMessage = "";
+        $scope.registerMessage = "";
         console.log ("Register form validated");
     }
     else {
-        $scope.registerErrorMessage = "Ensure all information is provided.";
+        $scope.registerMessage = "Ensure all information is provided.";
         console.log ("Login form login and password NOT validated");
 
         return false;
     }
 
     if ($scope.user.registerPassword === $scope.user.confirmPassword) {
-        $scope.registerErrorMessage = "";
+        $scope.registerMessage = "";
         console.log ("password " + $scope.user.registerPassword + " is the same as the confirmed " + $scope.user.confirmPassword);
     }
     else {
-        $scope.registerErrorMessage = "Ensure you enter the same password twice.";
+        $scope.registerMessage = "Ensure you enter the same password twice.";
         $scope.user.registerPassword = "";
         $scope.user.confirmPassword = "";
         console.log ("password is NOT confirmed");
@@ -129,11 +129,11 @@ function checkRegisterInput($scope) {
     }
 
     if ($scope.user.registerPassword.length > 2 && $scope.user.registerPassword.length < 13) {
-        $scope.registerErrorMessage = "";
+        $scope.registerMessage = "";
         console.log ("password is the right length: " + $scope.user.registerPassword.length);
     }
     else {
-        $scope.registerErrorMessage = "Ensure your password is between 3 and 12 characters and/or numbers.";
+        $scope.registerMessage = "Ensure your password is between 3 and 12 characters and/or numbers.";
         $scope.user.registerPassword = "";
         $scope.user.confirmPassword = "";
         console.log ("password is too short or too long");
@@ -167,25 +167,9 @@ function sendDataToServer($scope){
         req.open("POST", url);
         req.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 
-       /* req.onload = () => {
-            // response comes as a string in json format
-            // so it needs to be converted to a javascript object
-           const dataAsJsonObj = JSON.parse(req.response);
-           jsonDataFromServer.uid = data.uid;
-           console.log("jsonDataFromServer.uid: " + jsonDataFromServer.uid);
-
-           updateView($scope);
-
-        };*/
-
-
         req.send(JSON.stringify(dataToServer));
         console.log ("Sent to server: json=" + JSON.stringify(dataToServer));
 }
-
-/*function updateView($scope) {
-    $scope.loginErrorMessage = "UID = " + jsonDataFromServer.uid;
-}*/
 
 function requestLoginListener () {
     console.log ("this.responseText: " + this.responseText);
@@ -209,7 +193,7 @@ function requestLoginListener () {
         document.getElementById("nomatch").innerHTML = "";
 
         if (role === "manager") {
-            sessionStorage.setItem("UID", userID);
+            sessionStorage.setItem("uid", userID);
             // Go to manager page
             window.location.href = "http://localhost:40104/reviewapplications.html";
             console.log ("Role = " + jsonDataFromServer.role + ". Moving to Manager page");
@@ -217,10 +201,18 @@ function requestLoginListener () {
         else {
             // TODO
             // If the role is Applicant, two scenarios:
-            // 1. If the applicant has already applied, go to Status page
+            // 1. If the applicant has already applied, go to User Application page
             // 2. Else, got to Application page
             console.log ("role = " + jsonDataFromServer.role);
             console.log ("applied = " + jsonDataFromServer.applied);
+
+            sessionStorage.setItem("uid", userID);
+            if ( jsonDataFromServer.applied ) {
+                window.location.href = "http://localhost:40104/checkstatus.html";
+            }
+            else {
+                window.location.href = "http://localhost:40104/apply.html";
+            }
 
         }
     }
@@ -233,15 +225,14 @@ function requestRegisterListener() {
 
 
     if (jsonDataFromServer.uid == null) {
-            document.getElementById("failedregister").innerHTML = "The registration failed. Try again.";
+            document.getElementById("registerfailed").innerHTML = "The registration failed. Try again.";
         }
     else {
         const userID = jsonDataFromServer.uid.toString();
         // Saves uid in browser memory so it is available on next page
-        sessionStorage.setItem("UID", userID);
+        sessionStorage.setItem("uid", userID);
         console.log ("jsonDataFromServer.uid.toString(): " + jsonDataFromServer.uid.toString());
-
-
+        document.getElementById("registersuccess").innerHTML = "Success. Log in to apply.";
     }
 }
 
