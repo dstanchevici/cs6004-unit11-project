@@ -9,6 +9,15 @@ class DataFromManageApplications {
 
 
     String uid;
+    String firstName;
+    String lastName;
+    String email;
+    int age;
+    String locationPreference;
+    String jobPreference;
+    int skatingSkill;
+    String status;
+
     String currentStatus;
     String newStatus;
     String currentAssignedLocation;
@@ -100,6 +109,9 @@ public class ManageServlet extends HttpServlet {
             }
             else if (action.equals("updateVacanciesAndApplication")) {
                 updateVacanciesAndApplication(data);
+            }
+            else if (action.equals("insertApplication")) {
+                insertApplication(data);
             }
 
 
@@ -256,6 +268,35 @@ public class ManageServlet extends HttpServlet {
         }
 
 
+
+    }
+
+    synchronized void insertApplication(DataFromManageApplications data) {
+        try {
+            String currentDate = String.valueOf(java.time.LocalDate.now());
+            String sql = "INSERT INTO APPLICATION VALUES " +
+                    "(" +
+                        data.uid + ", " +
+                        "'" + data.firstName + "', " +
+                        "'" + data.lastName + "', " +
+                        data.age + ", " +
+                        "'" + data.email + "', " +
+                        "'" + data.locationPreference + "', " +
+                        "'" + data.jobPreference + "', " +
+                        data.skatingSkill + ", " +
+                        "'" + currentDate + "', " +
+                        "'under_review', " +
+                        "NULL, " +
+                        "NULL, " +
+                        "NULL" +
+                    ")";
+            statement.executeUpdate (sql);
+            printTable("APPLICATION", 13);
+
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
 
     }
 

@@ -89,5 +89,15 @@ function sendApplicationToServer($scope) {
         status: "under_review",
         servletAction: "insertApplication"
     };
+    sessionStorage.setItem("uid", applicationToServer.uid);
     console.log ("To be sent to server: json=" + JSON.stringify(applicationToServer));
+    let req = new XMLHttpRequest();
+    req.open("POST", url);
+    req.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+    req.send(JSON.stringify(applicationToServer));
+    req.onload = () => {
+        console.log ("Returned after sending updated application to server");
+        console.log ("sessionStorage.getItem(\"uid\")" + sessionStorage.getItem("uid"));
+        window.location.href = "http://localhost:40104/checkstatus.html";
+    }
 }
