@@ -41,23 +41,24 @@
     </div>
 
     <div class="reviewtable_container">
+        <p style="padding-left: 15px; margin-top:0;">Click a category in the table head to sort by this category.</p>
         <table class="reviewtable">
             <thead>
                 <tr>
-                    <th>UID</th>
-                    <th>Name</th>
-                    <th>Date Applied</th>
-                    <th>Age</th>
-                    <th>Skating Skill</th>
-                    <th>Preferred Location/Job</th>
-                    <th>Status</th>
-                    <th>Review Date</th>
-                    <th>Assigned Location/Job</th>
+                    <th ng-click="setOrderingByUID()">UID</th>
+                    <th ng-click="setOrderingByLastName()">Name</th>
+                    <th ng-click="setOrderingByApplicationDate()">Date Applied</th>
+                    <th ng-click="setOrderingByAge()">Age</th>
+                    <th ng-click="setOrderingBySkatingSkill()">Skating Skill</th>
+                    <th ng-click="setOrderingByLocationPreference()">Preferred Location/Job</th>
+                    <th ng-click="setOrderingByStatus()">Status</th>
+                    <th ng-click="setOrderingByReviewDate()">Review Date</th>
+                    <th ng-click="setOrderingByLocationAssignment()">Assigned Location/Job</th>
                     <th>Action</th>
                 </tr>
             </thead>
             <tbody>
-                <tr ng-repeat="a in applications">
+                <tr ng-repeat="a in applications | orderBy:orderingGoal" ng-class-even="'rowBg'">
                     <td>{{a.uid}}</td>
                     <td>{{a.firstName}} {{a.lastName}}</td>
                     <td>{{a.applicationDate}}</td>

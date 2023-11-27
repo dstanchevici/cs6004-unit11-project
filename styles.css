@@ -45,10 +45,16 @@
     width: 97%;
 }
 
-.reviewtable_container th, td {
+.reviewtable_container th {
     text-align: center;
     padding: 5px;
-    border-bottom: 1px solid black;
+    /*border-bottom: 1px solid black;*/
+}
+
+.reviewtable_container td {
+    text-align: center;
+    padding: 5px;
+    border-bottom: 0px;
 }
 
 .reviewtable_container thead {
@@ -56,6 +62,10 @@
     top:0px;
     background-color: black;
     color: white;
+}
+
+.rowBg {
+    background-color: lightgrey;
 }
 
 /*------- Manage Applications ----------*/

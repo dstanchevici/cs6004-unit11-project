@@ -31,6 +31,34 @@ app.controller("myController", function($scope) {
         manageApplication(applicationUID);
     }
 
+    $scope.orderingGoal = "uid";
+    $scope.setOrderingByUID = function () {
+        $scope.orderingGoal = "uid";
+    };
+    $scope.setOrderingByLastName = function () {
+        $scope.orderingGoal = "lastName";
+    };
+    $scope.setOrderingByApplicationDate = function () {
+        $scope.orderingGoal = "applicationDate";
+    };
+    $scope.setOrderingByAge = function () {
+        $scope.orderingGoal = "age";
+    };
+    $scope.setOrderingBySkatingSkill = function () {
+        $scope.orderingGoal = "skatingSkill";
+    };
+    $scope.setOrderingByLocationPreference = function () {
+        $scope.orderingGoal = "locationPreference";
+    };
+    $scope.setOrderingByStatus = function () {
+        $scope.orderingGoal = "status";
+    };
+    $scope.setOrderingByReviewDate = function () {
+        $scope.orderingGoal = "reviewDate";
+    };
+    $scope.setOrderingByLocationAssignment = function () {
+        $scope.orderingGoal = "locationAssignment";
+    };
 });
 
 
@@ -51,6 +79,7 @@ function getVacanciesFromServer($scope) {
         jsonDataFromServer.vacancies = dataAsJsonObj;
         $scope.vacancies = jsonDataFromServer.vacancies;
         // sort by location (https://www.javascripttutorial.net/array/javascript-sort-an-array-of-objects/)
+        // also compare function (https://www.w3schools.com/js/js_array_sort.asp)
         $scope.vacancies.sort((a,b) => {
             if (a.location < b.location) {
                 return -1;
