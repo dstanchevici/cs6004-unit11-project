@@ -43,11 +43,11 @@ app.controller("myController", function($scope) {
     $scope.jobIndex = -1;
     $scope.decisionErrorMessage = "";
 
-    $scope.applicantInfo = {};
-    getAndDisplayApplicantInfo($scope);
-
     $scope.locations = []; // Array of objects (location, index)
     getAndDisplayLocations($scope);
+
+    $scope.applicantInfo = {};
+    getAndDisplayApplicantInfo($scope);
 
     $scope.submitDecision = function () {
         if (checkInput($scope)) {
@@ -76,7 +76,8 @@ function getAndDisplayApplicantInfo($scope) {
         //console.log ("req.response: " + req.response);
         const dataAsJsonObj = JSON.parse(req.response);
         applicantInfoFromServer = dataAsJsonObj;
-        $scope.applicantInfo = applicantInfoFromServer;
+        $scope.applicantInfo = applicantInfoFromServer; //Note that this is the final $scope change before rendering. So $scope.$apply() is needed.
+
 
         if (applicantInfoFromServer.status === "under_review") {
             $scope.statusIndex = 1;
@@ -88,7 +89,7 @@ function getAndDisplayApplicantInfo($scope) {
             $scope.statusIndex = 3;
         }
 
-
+        $scope.$apply(); // Necessary to update the current $scope.
     }
 
 }
@@ -109,7 +110,7 @@ function getAndDisplayLocations($scope) {
     console.log ("Sent to server: json=" + JSON.stringify(dataToServer));
 
     req.onload = () => {
-        //console.log ("req.response: " + req.response);
+        console.log ("req.response: " + req.response);
         const dataAsJsonObj = JSON.parse(req.response);
         vacanciesFromServer = dataAsJsonObj;
         //$scope.locations = []; // Array of objects (location, deskvacancies, icevacancies, index)
@@ -121,6 +122,17 @@ function getAndDisplayLocations($scope) {
                 index:i+1
             };
             $scope.locations.push(locationObject);
+            // sort by location (https://www.javascripttutorial.net/array/javascript-sort-an-array-of-objects/)
+            $scope.locations.sort((a,b) => {
+                if (a.location < b.location) {
+                    return -1;
+                }
+                if (a.location > b.location) {
+                    return 1;
+                }
+                return 0;
+            });
+            //$scope.$apply(); // Include this call after the line that finished building the current $scope. Here it is in getAndDisplayApplications
         }
     }
 

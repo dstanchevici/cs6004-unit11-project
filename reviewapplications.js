@@ -50,6 +50,16 @@ function getVacanciesFromServer($scope) {
         const dataAsJsonObj = JSON.parse(reqVacancies.response);
         jsonDataFromServer.vacancies = dataAsJsonObj;
         $scope.vacancies = jsonDataFromServer.vacancies;
+        // sort by location (https://www.javascripttutorial.net/array/javascript-sort-an-array-of-objects/)
+        $scope.vacancies.sort((a,b) => {
+            if (a.location < b.location) {
+                return -1;
+            }
+            if (a.location > b.location) {
+                return 1;
+            }
+            return 0;
+        });
         $scope.$apply();
     }
 
